@@ -2,50 +2,89 @@
 
 @layer base {
   :root {
+    color-scheme: dark;
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;
+    --orbit-cyan: #72e5f7;
+    --orbit-violet: #9b8cff;
+    --orbit-border: rgba(148, 163, 184, 0.16);
   }
-
+  html { scroll-behavior: smooth; background: #050711; }
   body {
-    background-color: #030712;
+    margin: 0;
+    background: #050711;
     color: #f3f4f6;
     font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
-
-  code, pre, .font-mono {
-    font-family: 'JetBrains Mono', monospace;
-  }
+  button, a, select { -webkit-tap-highlight-color: transparent; }
+  button { touch-action: manipulation; }
+  ::selection { background: rgba(34, 211, 238, .28); color: #ecfeff; }
+  code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
 }
 
-/* Custom dark scrollbars for astronomy data tables and panels */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #090d16;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #334155;
-}
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: #070a13; }
+::-webkit-scrollbar-thumb { background: #263047; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #40516e; }
 
-/* Cosmic grid background pattern */
 .cosmic-grid {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-color: #050711;
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(28, 85, 130, .17), transparent 48%),
+    linear-gradient(to right, rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: auto, 40px 40px, 40px 40px;
 }
+.cosmic-radial-glow { background: radial-gradient(circle at 50% 20%, rgba(59,130,246,.1), rgba(147,51,234,.035) 42%, transparent 72%); }
+.spectral-glow { box-shadow: 0 0 30px -7px rgba(56,189,248,.3); }
 
-.cosmic-radial-glow {
-  background: radial-gradient(circle at 50% 20%, rgba(59, 130, 246, 0.08) 0%, rgba(147, 51, 234, 0.04) 40%, transparent 70%);
+/* Black Star Orbit mission identity */
+.mission-hero {
+  isolation: isolate;
+  background: radial-gradient(ellipse at 72% 42%, rgba(28, 65, 122, .22), transparent 42%), linear-gradient(115deg, #070b17 0%, #090d1d 54%, #0c1024 100%);
 }
+.mission-hero__stars {
+  position: absolute; inset: 0; pointer-events: none; opacity: .45;
+  background-image: radial-gradient(1px 1px at 8% 22%, rgba(255,255,255,.8) 99%, transparent), radial-gradient(1px 1px at 29% 68%, rgba(132,224,255,.8) 99%, transparent), radial-gradient(2px 2px at 77% 21%, rgba(255,255,255,.65) 99%, transparent), radial-gradient(1px 1px at 92% 66%, rgba(182,168,255,.8) 99%, transparent), radial-gradient(1px 1px at 61% 83%, rgba(255,255,255,.7) 99%, transparent), radial-gradient(1px 1px at 46% 15%, rgba(255,255,255,.6) 99%, transparent);
+  background-size: 290px 210px, 340px 260px, 380px 270px, 310px 220px, 270px 200px, 420px 300px;
+}
+.mission-hero__orb { position:absolute; border-radius:50%; pointer-events:none; filter:blur(1px); }
+.mission-hero__orb--one { width:390px;height:390px;right:-105px;top:-185px;border:1px solid rgba(111,210,255,.13);box-shadow:inset 0 0 70px rgba(40,105,190,.06),0 0 90px rgba(41,91,180,.08); }
+.mission-hero__orb--one::before,.mission-hero__orb--one::after { content:"";position:absolute;border:1px solid rgba(143,130,255,.12);border-radius:50%;inset:26px;transform:rotate(-28deg) scaleY(.56); }
+.mission-hero__orb--one::after { inset:66px -24px;transform:rotate(36deg) scaleY(.62); }
+.mission-hero__orb--two { width:8px;height:8px;right:16%;top:34%;background:#8de9ff;box-shadow:0 0 20px 5px rgba(83,210,255,.28); }
+.mission-kicker,.mission-tag { display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid rgba(125,211,252,.2);border-radius:999px;background:rgba(8,20,39,.58);color:#a5eaf8;font:500 10px/1.2 'JetBrains Mono',monospace;letter-spacing:.13em; }
+.mission-tag { color:#a5b4fc;border-color:rgba(165,180,252,.16);letter-spacing:.08em; }
+.mission-kicker__dot,.status-dot { display:inline-block;width:6px;height:6px;border-radius:50%;background:#5eead4;box-shadow:0 0 12px rgba(94,234,212,.7); }
+.mission-title { font-size:clamp(2.6rem,6vw,5.15rem);font-weight:600;letter-spacing:-.065em;line-height:.99;color:#f8fafc; }
+.mission-title span { color:transparent;background:linear-gradient(105deg,#a5f3fc 0%,#67e8f9 35%,#a5b4fc 78%,#c4b5fd 100%);background-clip:text;-webkit-background-clip:text; }
+.mission-primary-button,.mission-secondary-button { display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 16px;border-radius:12px;font-size:13px;font-weight:600;transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease; }
+.mission-primary-button { color:#06111d;background:linear-gradient(110deg,#a5f3fc,#67e8f9 55%,#a5b4fc);box-shadow:0 8px 26px rgba(34,211,238,.13); }
+.mission-primary-button:hover { transform:translateY(-2px);box-shadow:0 12px 32px rgba(34,211,238,.22); }
+.mission-secondary-button { color:#e2e8f0;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.23); }
+.mission-secondary-button:hover { transform:translateY(-2px);background:rgba(255,255,255,.07);border-color:rgba(165,180,252,.48); }
+.mission-console { overflow:hidden;border:1px solid rgba(148,163,184,.19);border-radius:18px;background:rgba(7,12,26,.76);box-shadow:0 22px 70px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.035);backdrop-filter:blur(18px); }
+.mission-stat { min-width:0;padding:17px 16px;background:rgba(13,19,38,.8); }
+.mission-stat__label { display:block;color:#7f91b0;font:500 9px/1.4 'JetBrains Mono',monospace;letter-spacing:.14em; }
+.mission-stat strong { display:block;margin-top:9px;color:#f1f5f9;font:600 19px/1.2 'Space Grotesk',sans-serif;letter-spacing:.02em; }
+.mission-stat small { display:block;margin-top:5px;color:#94a3b8;font-size:11px; }
+.mission-stat--wide { grid-column:1 / -1;padding-top:14px;padding-bottom:15px; }
+.mission-console__footer { display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;color:#cbd5e1;font-size:11px;background:rgba(255,255,255,.018);transition:background .2s ease; }
+.mission-console__footer span { display:flex;align-items:center;gap:9px; }
+.mission-console__footer:hover { background:rgba(103,232,249,.07); }
+.mission-bottomline { display:flex;align-items:center;gap:14px;margin-top:36px;color:#63728e;font:500 9px/1.4 'JetBrains Mono',monospace;letter-spacing:.15em; }
+.mission-bottomline__line { height:1px;max-width:100px;flex:1;background:linear-gradient(90deg,rgba(103,232,249,.35),transparent); }
 
-.spectral-glow {
-  box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.25);
+@media (max-width: 640px) {
+  .mission-title { font-size:clamp(2.45rem,12vw,3.65rem); }
+  .mission-hero .mission-kicker { font-size:9px;letter-spacing:.08em; }
+  .mission-tag { font-size:9px; }
+  .mission-bottomline { gap:8px;font-size:8px;letter-spacing:.07em; }
+  .mission-bottomline__line { max-width:30px; }
+  .mission-primary-button,.mission-secondary-button { width:100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }

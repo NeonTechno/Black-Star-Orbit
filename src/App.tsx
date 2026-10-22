@@ -30,7 +30,7 @@ import {
   DEFAULT_PLANET_X_HYPOTHESIS,
   INITIAL_CANDIDATE_QUEUE,
 } from './science/orbitalMechanics.ts';
-import { ShieldCheck, Compass, ExternalLink } from 'lucide-react';
+import { ShieldCheck, Compass, ExternalLink, ArrowUpRight, Orbit, Telescope, Sparkles, Activity } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'spherex' | 'planetx' | 'architecture'>('spherex');
@@ -176,6 +176,53 @@ export default function App() {
         onOpenDataModal={() => setIsDataModalOpen(true)}
         serverStatusOk={serverOk}
       />
+
+      {/* Mission landing panel */}
+      <section className="mission-hero relative overflow-hidden border-b border-white/[0.07]">
+        <div className="mission-hero__stars" aria-hidden="true" />
+        <div className="mission-hero__orb mission-hero__orb--one" aria-hidden="true" />
+        <div className="mission-hero__orb mission-hero__orb--two" aria-hidden="true" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
+          <div className="flex flex-wrap items-center gap-2 mb-5">
+            <span className="mission-kicker"><span className="mission-kicker__dot" /> BLACK STAR ORBIT · ACCRA, GHANA</span>
+            <span className="mission-tag"><Activity className="h-3 w-3" /> CITIZEN SCIENCE LAB</span>
+          </div>
+          <div className="grid lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)] gap-10 lg:gap-14 items-end">
+            <div>
+              <p className="text-xs sm:text-sm uppercase tracking-[0.24em] text-cyan-200/75 font-mono mb-4">Explore the unseen universe</p>
+              <h2 className="mission-title max-w-3xl">
+                The sky is full of <span>unknowns.</span>
+              </h2>
+              <p className="mt-5 max-w-2xl text-sm sm:text-base leading-7 text-slate-300/80">
+                A space-science workbench for exploring infrared observations, comparing what changes, and investigating the evidence behind the outer solar system’s biggest questions.
+              </p>
+              <div className="flex flex-wrap gap-3 mt-7">
+                <button onClick={() => setActiveTab('spherex')} className="mission-primary-button">
+                  <Telescope className="h-4 w-4" /> Explore SPHEREx <ArrowUpRight className="h-4 w-4" />
+                </button>
+                <button onClick={() => setActiveTab('planetx')} className="mission-secondary-button">
+                  <Orbit className="h-4 w-4" /> Investigate Planet X
+                </button>
+              </div>
+            </div>
+            <div className="mission-console">
+              <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] px-4 py-3">
+                <span className="font-mono text-[10px] tracking-[0.18em] text-slate-400 uppercase">Mission console</span>
+                <span className={`flex items-center gap-2 text-[10px] font-mono ${serverOk ? "text-emerald-300" : "text-amber-300"}`}><span className="status-dot" /> {serverOk ? "API ONLINE" : "LOCAL FALLBACK"}</span>
+              </div>
+              <div className="grid grid-cols-2 gap-px bg-white/[0.06]">
+                <div className="mission-stat"><span className="mission-stat__label">ACTIVE MODULE</span><strong>{activeTab === 'spherex' ? 'SPHEREx' : activeTab === 'planetx' ? 'PLANET X' : 'DATA LAB'}</strong><small>{activeTab === 'spherex' ? 'Infrared sky explorer' : activeTab === 'planetx' ? 'Hypothesis workbench' : 'Sources & architecture'}</small></div>
+                <div className="mission-stat"><span className="mission-stat__label">OBSERVATION MODE</span><strong>{activeTab === 'spherex' ? 'BENCHMARK' : activeTab === 'planetx' ? 'RESEARCH' : 'REFERENCE'}</strong><small>{activeTab === 'spherex' ? 'Synthetic demo data' : activeTab === 'planetx' ? 'Evidence-led inquiry' : 'Integration status'}</small></div>
+                <div className="mission-stat mission-stat--wide"><span className="mission-stat__label">SCIENCE FIRST</span><div className="flex items-start gap-2 mt-2"><ShieldCheck className="h-4 w-4 text-cyan-300 shrink-0 mt-0.5" /><p className="text-xs leading-5 text-slate-300/75">Candidate signals are leads to investigate—not discoveries. Demo observations are clearly identified.</p></div></div>
+              </div>
+              <button onClick={() => setIsDataModalOpen(true)} className="mission-console__footer">
+                <span><Sparkles className="h-3.5 w-3.5 text-cyan-300" /> Review data sources & methodology</span><ArrowUpRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          <div className="mission-bottomline"><span>NASA SPACE APPS CHALLENGE 2026</span><span className="mission-bottomline__line" /><span>LOOK CLOSER. QUESTION EVERYTHING.</span></div>
+        </div>
+      </section>
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
