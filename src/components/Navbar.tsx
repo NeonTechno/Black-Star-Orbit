@@ -24,16 +24,16 @@ export const Navbar: React.FC<NavbarProps> = ({
   serverStatusOk,
 }) => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#060914]/90 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.16)]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 grid grid-cols-1 xl:grid-cols-[minmax(220px,1fr)_auto_auto] gap-3 items-center">
         
         {/* Brand & Mission Title */}
         <div className="flex items-center space-x-3">
-          <div className="h-10 w-10 rounded-lg bg-gradient-to-tr from-cyan-600 via-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-cyan-300 via-sky-500 to-violet-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 ring-1 ring-white/20">
             <Compass className="h-6 w-6 text-white" />
           </div>
           <div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center justify-end gap-2 flex-wrap">
               <span className="font-mono text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
                 NASA Space Apps 2026
               </span>
@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Module Switcher Tabs */}
-        <nav className="flex items-center space-x-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+        <nav className="flex items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-white/[0.08] max-w-full overflow-x-auto nav-scroll">
           <button
             onClick={() => setActiveTab('spherex')}
             className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
@@ -91,7 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Data status button */}
           <button
             onClick={onOpenDataModal}
-            className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 transition"
+            className="flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-mono bg-slate-900/70 border border-white/[0.09] text-slate-300 hover:border-cyan-500/40 transition whitespace-nowrap"
             title="Inspect NASA / IPAC Data Connectors"
           >
             <Activity className={`h-3.5 w-3.5 ${serverStatusOk ? 'text-emerald-400' : 'text-amber-400 animate-pulse'}`} />
