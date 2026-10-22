@@ -33,7 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Compass className="h-6 w-6 text-white" />
           </div>
           <div>
-            <div className="flex items-center justify-end gap-2 flex-wrap">
+            <div className="flex items-center space-x-2">
               <span className="font-mono text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
                 NASA Space Apps 2026
               </span>
@@ -51,7 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <nav className="flex items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-white/[0.08] max-w-full overflow-x-auto nav-scroll">
           <button
             onClick={() => setActiveTab('spherex')}
-            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
+            className={`flex items-center shrink-0 space-x-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
               activeTab === 'spherex'
                 ? 'bg-cyan-600/30 text-cyan-300 border border-cyan-500/50 shadow-sm'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
@@ -63,7 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setActiveTab('planetx')}
-            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
+            className={`flex items-center shrink-0 space-x-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
               activeTab === 'planetx'
                 ? 'bg-indigo-600/30 text-indigo-300 border border-indigo-500/50 shadow-sm'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
@@ -75,7 +75,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setActiveTab('architecture')}
-            className={`hidden md:flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
+            className={`hidden md:flex items-center shrink-0 space-x-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
               activeTab === 'architecture'
                 ? 'bg-purple-600/30 text-purple-300 border border-purple-500/50 shadow-sm'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
@@ -87,7 +87,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Quick Tools & AI Copilot */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-end gap-2 flex-wrap">
           {/* Data status button */}
           <button
             onClick={onOpenDataModal}
@@ -101,7 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* AI Assistant button */}
           <button
             onClick={onOpenAiAssistant}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-gradient-to-r from-cyan-600 to-indigo-600 text-white hover:from-cyan-500 hover:to-indigo-500 shadow-md shadow-indigo-900/30 transition border border-cyan-400/30 cursor-pointer"
+            className="flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-cyan-500 to-indigo-500 text-white hover:from-cyan-400 hover:to-indigo-400 shadow-md shadow-indigo-900/30 transition border border-cyan-300/25 cursor-pointer whitespace-nowrap"
           >
             <Sparkles className="h-3.5 w-3.5" />
             <span>AI Scientific Intel</span>
