@@ -208,7 +208,7 @@ export default function App() {
             <div className="mission-console">
               <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] px-4 py-3">
                 <span className="font-mono text-[10px] tracking-[0.18em] text-slate-400 uppercase">Mission console</span>
-                <span className="flex items-center gap-2 text-[10px] font-mono text-emerald-300"><span className="status-dot" /> SYSTEM READY</span>
+                <span className={`flex items-center gap-2 text-[10px] font-mono ${serverOk ? "text-emerald-300" : "text-amber-300"}`}><span className="status-dot" /> {serverOk ? "API ONLINE" : "LOCAL FALLBACK"}</span>
               </div>
               <div className="grid grid-cols-2 gap-px bg-white/[0.06]">
                 <div className="mission-stat"><span className="mission-stat__label">ACTIVE MODULE</span><strong>{activeTab === 'spherex' ? 'SPHEREx' : activeTab === 'planetx' ? 'PLANET X' : 'DATA LAB'}</strong><small>{activeTab === 'spherex' ? 'Infrared sky explorer' : activeTab === 'planetx' ? 'Hypothesis workbench' : 'Sources & architecture'}</small></div>
