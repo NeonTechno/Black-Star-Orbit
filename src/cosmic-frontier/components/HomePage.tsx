@@ -36,7 +36,7 @@ export const HomePage: FC<HomePageProps> = ({ onNavigate }) => {
             Astronomy Observatories & Research Consoles
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#F8FAFC] tracking-tight">
-            Explore the Cosmic Frontier
+            Explore the Black Star Orbit
           </h2>
           <p className="text-sm sm:text-base text-[#A7B4CC] leading-relaxed">
             Begin with interactive observational workstations designed for clear understanding, backed by verified NASA open data archives and Standish analytical ephemerides.
@@ -282,7 +282,7 @@ export const HomePage: FC<HomePageProps> = ({ onNavigate }) => {
         <NasaLiveDispatch onNavigate={onNavigate} />
       </section>
 
-      {/* 6. HOW COSMIC FRONTIER WORKS */}
+      {/* 6. HOW BLACK STAR ORBIT WORKS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl bg-[#0B1630]/60 border border-[#1E293B] p-8 sm:p-10 space-y-8 shadow-lg">
           <div className="max-w-2xl space-y-2">
@@ -290,7 +290,7 @@ export const HomePage: FC<HomePageProps> = ({ onNavigate }) => {
               Exploration Methodology
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-[#F8FAFC]">
-              How COSMIC FRONTIER Works
+              How BLACK STAR ORBIT Works
             </h2>
             <p className="text-sm text-[#A7B4CC] leading-relaxed">
               Designed for intuitive discovery. Our tools translate raw observational datasets into interactive, scientifically grounded knowledge.
@@ -346,7 +346,7 @@ export const HomePage: FC<HomePageProps> = ({ onNavigate }) => {
                 </span>
               </h3>
               <p className="text-xs text-[#A7B4CC] leading-relaxed max-w-3xl">
-                COSMIC FRONTIER never presents speculative hypotheses as facts. SPHEREx images are clearly identified as calibrated spectroscopic models based on verified NASA observations. Planet X is explicitly identified as an unconfirmed mathematical hypothesis. No live telescope feeds or fake data are fabricated.
+                BLACK STAR ORBIT never presents speculative hypotheses as facts. SPHEREx images are clearly identified as calibrated spectroscopic models based on verified NASA observations. Planet X is explicitly identified as an unconfirmed mathematical hypothesis. No live telescope feeds or fake data are fabricated.
               </p>
             </div>
           </div>
