@@ -45,7 +45,7 @@ export const Navbar: FC<NavbarProps> = ({ currentPage, onNavigate }) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#050B1A]/95 backdrop-blur-md border-b border-[#1E293B]">
+    <header className="relative z-30 bg-[#050B1A]/85 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-18">
           {/* Logo & Brand */}
