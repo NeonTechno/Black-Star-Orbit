@@ -12,6 +12,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { CosmicFrontierSuite } from './cosmic-frontier/CosmicFrontierSuite';
 import { Navbar } from './components/Navbar.tsx';
 import { SpherexViewer } from './components/spherex/SpherexViewer.tsx';
 import { PlanetXDashboard } from './components/planetx/PlanetXDashboard.tsx';
@@ -33,7 +34,7 @@ import {
 import { ShieldCheck, Compass, ExternalLink, ArrowUpRight, Orbit, Telescope, Sparkles, Activity } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'spherex' | 'planetx' | 'architecture'>('spherex');
+  const [activeTab, setActiveTab] = useState<'spherex' | 'planetx' | 'architecture' | 'cosmic-suite'>('spherex');
   const [serverOk, setServerOk] = useState<boolean>(true);
 
   // SPHEREx State
@@ -177,6 +178,7 @@ export default function App() {
         serverStatusOk={serverOk}
       />
 
+      {activeTab !== 'cosmic-suite' && <>
       {/* Mission landing panel */}
       <section className="mission-hero relative overflow-hidden border-b border-white/[0.07]">
         <div className="mission-hero__stars" aria-hidden="true" />
@@ -223,9 +225,11 @@ export default function App() {
           <div className="mission-bottomline"><span>NASA SPACE APPS CHALLENGE 2026</span><span className="mission-bottomline__line" /><span>LOOK CLOSER. QUESTION EVERYTHING.</span></div>
         </div>
       </section>
+      </>}
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className={`flex-1 w-full mx-auto ${activeTab === 'cosmic-suite' ? 'max-w-none' : 'max-w-7xl px-4 sm:px-6 lg:px-8 py-6'}`}>
+        {activeTab === 'cosmic-suite' && <CosmicFrontierSuite />}
         {activeTab === 'spherex' && (
           <SpherexViewer
             observations={spherexObservations}
@@ -251,7 +255,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-slate-950/90 py-6 px-4 sm:px-6 lg:px-8 text-xs font-mono text-slate-500">
+      {activeTab !== 'cosmic-suite' && <footer className="border-t border-slate-800/80 bg-slate-950/90 py-6 px-4 sm:px-6 lg:px-8 text-xs font-mono text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
             <div className="h-6 w-6 rounded bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xs">
@@ -286,7 +290,7 @@ export default function App() {
             </a>
           </div>
         </div>
-      </footer>
+      </footer>}
 
       {/* AI Assistant Modal */}
       <CosmicAiAssistant
