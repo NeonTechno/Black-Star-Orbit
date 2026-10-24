@@ -18,7 +18,7 @@ export const Footer: FC<FooterProps> = ({ onNavigate }) => {
                 <Compass className="w-4 h-4 text-[#38BDF8]" />
               </div>
               <span className="font-bold text-base text-[#F8FAFC] font-mono tracking-wider">
-                COSMIC FRONTIER
+                BLACK STAR ORBIT
               </span>
             </div>
             <p className="text-xs text-[#A7B4CC] leading-relaxed">
@@ -177,7 +177,7 @@ export const Footer: FC<FooterProps> = ({ onNavigate }) => {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-6 border-t border-[#1E293B] flex flex-col sm:flex-row items-center justify-between text-xs text-[#A7B4CC]/80 gap-4">
-          <p>© 2026 COSMIC FRONTIER. Developed for educational astronomy & open science outreach.</p>
+          <p>© 2026 BLACK STAR ORBIT. Developed for educational astronomy & open science outreach.</p>
           <div className="flex items-center gap-6">
             <button 
               onClick={() => onNavigate('about')}
