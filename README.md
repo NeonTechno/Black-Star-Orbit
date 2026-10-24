@@ -118,3 +118,35 @@ npm start
    - Stream multi-megabyte 3D FITS data cubes into WebGL 2.0 or WebGPU shaders for real-time volumetric slicing.
 3. **Rubin Observatory (LSST) Alert Brokers**:
    - Ingest live real-time transient streams from Fink or Alerce to flag high-proper-motion outer solar system candidates ($r > 23$).
+
+
+## Expanded Cosmic Lab
+
+The app now includes an optional **Cosmic Lab** experience adapted from the team's companion repository, [jk-larbi/cosmic-frontier-](https://github.com/jk-larbi/cosmic-frontier-). It sits alongside the existing SPHEREx and Planet X workspaces instead of replacing them.
+
+Additional modules include:
+- Mission Control dashboard and live cosmic observatory
+- Interactive 3D universe and solar-system exploration
+- Asteroid watch and orbital-motion visualizations
+- Exoplanet discovery lab and galaxy explorer
+- Dedicated SPHEREx and Planet X research workspaces
+- NASA data centre, scientific guide, and provenance indicators
+- Local archived astronomy catalogs for exoplanets, galaxies, small bodies, stars, solar-system reference objects, SPHEREx mission products, and NASA imagery
+
+### Data and scientific integrity
+
+Live API responses are labelled separately from archived local catalog data where the UI supports that distinction. If a live endpoint is unavailable, some modules use the bundled archive or display an unavailable state. Orbital scenes and hypothetical Planet X views are visualizations/models, not evidence of a confirmed discovery.
+
+### Attribution and licensing
+
+The expanded suite and its adapted components/data originated in the team's companion repository: [jk-larbi/cosmic-frontier-](https://github.com/jk-larbi/cosmic-frontier-). Please retain relevant scientific source attribution. The source repository does not currently declare a license in its GitHub metadata; confirm reuse and distribution terms with the contributor before making a public release.
+
+### Install the expanded 3D modules
+
+Three.js is now a project dependency. After pulling this branch, run:
+
+```bash
+npm install
+npm run build
+```
+
