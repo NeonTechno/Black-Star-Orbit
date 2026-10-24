@@ -40,7 +40,7 @@ export const NovaCommandHero: FC<NovaCommandHeroProps> = ({ onNavigate }) => {
           </div>
           <div>
             <span className="font-mono font-black text-lg tracking-[0.2em] text-[#F8FAFC]">
-              COSMIC FRONTIER
+              BLACK STAR ORBIT
             </span>
             <span className="hidden sm:inline-block ml-2 text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30">
               NASA SPACE APPS 2026
