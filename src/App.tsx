@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  * 
- * COSMIC FRONTIER — NASA Space Apps Challenge 2026
+ * BLACK STAR ORBIT — NASA Space Apps Challenge 2026
  * Full-Stack Astronomy Web Application
  * 
  * Modules:
@@ -261,7 +261,7 @@ export default function App() {
             <div className="h-6 w-6 rounded bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xs">
               CF
             </div>
-            <span className="text-slate-300 font-semibold">COSMIC FRONTIER</span>
+            <span className="text-slate-300 font-semibold">BLACK STAR ORBIT</span>
             <span>•</span>
             <span>NASA Space Apps Challenge 2026</span>
           </div>
