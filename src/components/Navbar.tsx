@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  * 
- * COSMIC FRONTIER — Navigation & Mission Control Bar
+ * BLACK STAR ORBIT — Navigation & Mission Control Bar
  */
 
 import React from 'react';
@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </div>
             <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
-              COSMIC FRONTIER
+              BLACK STAR ORBIT
             </h1>
           </div>
         </div>
