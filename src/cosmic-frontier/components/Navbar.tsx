@@ -52,7 +52,7 @@ export const Navbar: FC<NavbarProps> = ({ currentPage, onNavigate }) => {
           <button 
             onClick={() => handleNavClick('home')}
             className="flex items-center gap-2.5 text-left group focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 rounded-lg p-1"
-            aria-label="Cosmic Frontier Home"
+            aria-label="Black Star Orbit Home"
           >
             <div className="relative w-9 h-9 rounded-lg bg-[#0B1630] border border-[#38BDF8]/30 flex items-center justify-center shadow-md group-hover:border-[#38BDF8] transition-all">
               <Compass className="w-4.5 h-4.5 text-[#38BDF8] group-hover:rotate-45 transition-transform duration-500" />
@@ -60,7 +60,7 @@ export const Navbar: FC<NavbarProps> = ({ currentPage, onNavigate }) => {
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-bold text-base sm:text-lg tracking-wider text-[#F8FAFC] font-mono group-hover:text-[#38BDF8] transition-colors">
-                  COSMIC FRONTIER
+                  BLACK STAR ORBIT
                 </span>
                 <span className="hidden sm:inline-block text-[9px] uppercase font-semibold tracking-widest px-2 py-0.5 rounded-full bg-[#8B5CF6]/15 text-[#C084FC] border border-[#8B5CF6]/30">
                   NASA 2026
