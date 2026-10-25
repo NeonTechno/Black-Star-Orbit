@@ -2,15 +2,15 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  * 
- * COSMIC FRONTIER — Navigation & Mission Control Bar
+ * BLACK STAR ORBIT — Navigation & Mission Control Bar
  */
 
 import React from 'react';
-import { Compass, Telescope, Orbit, Database, Sparkles, Activity, ShieldCheck } from 'lucide-react';
+import { Compass, Telescope, Orbit, Database, Sparkles, Activity, ShieldCheck, Globe } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'spherex' | 'planetx' | 'architecture';
-  setActiveTab: (tab: 'spherex' | 'planetx' | 'architecture') => void;
+  activeTab: 'spherex' | 'planetx' | 'architecture' | 'cosmic-suite';
+  setActiveTab: (tab: 'spherex' | 'planetx' | 'architecture' | 'cosmic-suite') => void;
   onOpenAiAssistant: () => void;
   onOpenDataModal: () => void;
   serverStatusOk: boolean;
@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </div>
             <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
-              COSMIC FRONTIER
+              BLACK STAR ORBIT
             </h1>
           </div>
         </div>
@@ -71,6 +71,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Orbit className="h-4 w-4" />
             <span>Planet X Explorer</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('cosmic-suite')}
+            className={`flex items-center shrink-0 space-x-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+              activeTab === 'cosmic-suite'
+                ? 'bg-cyan-600/30 text-cyan-300 border border-cyan-500/50 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+            }`}
+          >
+            <Globe className="h-4 w-4" />
+            <span>Cosmic Lab</span>
           </button>
 
           <button

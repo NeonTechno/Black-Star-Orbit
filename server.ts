@@ -18,6 +18,14 @@ import { generateSyntheticSpherexObservations, SPHEREX_BANDS } from './src/scien
 import { VERIFIED_ETNO_CATALOG, DEFAULT_PLANET_X_HYPOTHESIS, INITIAL_CANDIDATE_QUEUE } from './src/science/orbitalMechanics.ts';
 import { OFFICIAL_NASA_DATA_SOURCES } from './src/science/dataConnector.ts';
 import { PlanetXCandidate } from './src/types/index.ts';
+import exoplanetArchive from './src/cosmic-frontier/data/catalogs/confirmed-exoplanets.json';
+import galaxyArchive from './src/cosmic-frontier/data/catalogs/deep-sky-galaxies.json';
+import smallBodiesArchive from './src/cosmic-frontier/data/catalogs/asteroids-comets.json';
+import starArchive from './src/cosmic-frontier/data/catalogs/bright-stars.json';
+import planetArchive from './src/cosmic-frontier/data/catalogs/planets.json';
+import spherexArchive from './src/cosmic-frontier/data/catalogs/mission-products.json';
+import nasaImageArchive from './src/cosmic-frontier/data/catalogs/nasa-archives.json';
+
 
 dotenv.config();
 
@@ -51,6 +59,70 @@ if (apiKey) {
 // ==========================================
 // API ROUTES
 // ==========================================
+
+// Read-only archive-backed endpoints for the expanded Cosmic Lab.
+const archiveMeta = (archive: any) => ({
+  source: archive.metadata?.source || 'Verified Local Archive',
+  sourceUrl: archive.metadata?.sourceUrl,
+  retrievalDateUTC: archive.metadata?.retrievalDateUTC,
+  dataStatus: archive.metadata?.dataStatus || 'Archived reference data',
+  isLive: false,
+});
+
+app.get('/api/data/solar-system', (_req: Request, res: Response) => {
+  res.json({ records: planetArchive.records || [], ...archiveMeta(planetArchive) });
+});
+
+app.get('/api/data/exoplanets', (req: Request, res: Response) => {
+  const search = String(req.query.search || '').trim().toLowerCase();
+  const includeCandidates = String(req.query.candidates || 'true') !== 'false';
+  const records = (exoplanetArchive.records || []).filter((record: any) => {
+    const matches = !search || `${record.planetName} ${record.hostStar} ${record.discoveryMethod}`.toLowerCase().includes(search);
+    return matches && (includeCandidates || record.disposition !== 'Candidate');
+  });
+  res.json({ records, ...archiveMeta(exoplanetArchive) });
+});
+
+app.get('/api/data/small-bodies', (req: Request, res: Response) => {
+  const search = String(req.query.sstr || '').trim().toLowerCase();
+  const confirmedObjects = (smallBodiesArchive.confirmedObjects || []).filter((record: any) =>
+    !search || `${record.designation} ${record.fullName} ${record.orbitClass}`.toLowerCase().includes(search)
+  );
+  res.json({ confirmedObjects, hypotheticalScenarios: smallBodiesArchive.hypotheticalScenarios || [], ...archiveMeta(smallBodiesArchive) });
+});
+
+app.get('/api/data/galaxies', (req: Request, res: Response) => {
+  const lookup = String(req.query.lookup || '').trim().toLowerCase();
+  const records = (galaxyArchive.records || []).filter((record: any) =>
+    !lookup || `${record.name} ${record.catalogIdentifier} ${record.constellation} ${(record.alternateNames || []).join(' ')}`.toLowerCase().includes(lookup)
+  );
+  if (lookup) {
+    const record = records[0];
+    if (!record) {
+      res.status(404).json({ success: false, message: 'No matching object in the bundled archival catalog.' });
+      return;
+    }
+    res.json({ success: true, record, source: archiveMeta(galaxyArchive).source, isLive: false });
+    return;
+  }
+  res.json({ records, ...archiveMeta(galaxyArchive) });
+});
+
+app.get('/api/data/stars', (_req: Request, res: Response) => {
+  res.json({ records: starArchive.records || [], ...archiveMeta(starArchive) });
+});
+
+app.get('/api/data/spherex', (_req: Request, res: Response) => {
+  res.json({ ...spherexArchive, ...archiveMeta(spherexArchive) });
+});
+
+app.get('/api/data/images', (req: Request, res: Response) => {
+  const query = String(req.query.q || '').trim().toLowerCase();
+  const records = (nasaImageArchive.records || []).filter((record: any) =>
+    !query || `${record.title} ${record.center} ${record.nasaId} ${record.credit}`.toLowerCase().includes(query)
+  );
+  res.json({ records, ...archiveMeta(nasaImageArchive) });
+});
 
 // Health check & Server Status
 app.get('/api/health', (_req: Request, res: Response) => {
