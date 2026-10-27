@@ -8,7 +8,8 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { ObservationFrame, StretchMode, ColorMap } from '../../types/index.ts';
 import { renderObservationToCanvas } from '../../science/spherexEngine.ts';
-import { Play, Pause, RotateCcw, FastForward, Film, Eye } from 'lucide-react';
+import { Play, Pause, RotateCcw, FastForward, Film, Eye, Download } from 'lucide-react';
+import { exportGenericCanvasPNG } from '../../science/spherexExport.ts';
 
 interface TimelapseViewerProps {
   epochs: ObservationFrame[];
@@ -27,6 +28,7 @@ export const TimelapseViewer: React.FC<TimelapseViewerProps> = ({
   const [isBlinkMode, setIsBlinkMode] = useState<boolean>(false);
   const [blinkEpochA, setBlinkEpochA] = useState<number>(0);
   const [blinkEpochB, setBlinkEpochB] = useState<number>(Math.min(1, epochs.length - 1));
+  const [isExporting, setIsExporting] = useState<boolean>(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const activeFrame = isBlinkMode
@@ -58,6 +60,22 @@ export const TimelapseViewer: React.FC<TimelapseViewerProps> = ({
 
     return () => clearInterval(timer);
   }, [isPlaying, fps, isBlinkMode, epochs.length]);
+
+  const handleDownloadTimelapseFrame = async () => {
+    if (!canvasRef.current || !activeFrame) return;
+    setIsExporting(true);
+    try {
+      await exportGenericCanvasPNG(
+        canvasRef.current,
+        `SPHEREx_Timelapse_${activeFrame.frameId}_${activeFrame.timestamp.split('T')[0]}.png`,
+        `SPHEREx Time-lapse Frame: ${activeFrame.frameId} (${activeFrame.timestamp})`
+      );
+    } catch (err) {
+      console.error('Timelapse frame export failed:', err);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   return (
     <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
@@ -96,6 +114,20 @@ export const TimelapseViewer: React.FC<TimelapseViewerProps> = ({
           >
             <Eye className="h-3 w-3" />
             Blink Comparator (Transient Hunting)
+          </button>
+
+          <button
+            onClick={handleDownloadTimelapseFrame}
+            disabled={isExporting}
+            className="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 border border-cyan-500/40 font-mono transition ml-1 disabled:opacity-50"
+            title="Download Active Frame as PNG"
+          >
+            {isExporting ? (
+              <div className="h-3 w-3 border-2 border-cyan-300/30 border-t-cyan-300 rounded-full animate-spin" />
+            ) : (
+              <Download className="h-3.5 w-3.5" />
+            )}
+            <span>Download View</span>
           </button>
         </div>
       </div>

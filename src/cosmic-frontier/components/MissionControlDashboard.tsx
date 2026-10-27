@@ -33,6 +33,7 @@ import {
   CheckCircle2, 
   Maximize2
 } from 'lucide-react';
+import { SpacecraftFlightHud } from './mission-control/SpacecraftFlightHud';
 
 interface MissionControlDashboardProps {
   onNavigate: (page: AppPage) => void;
@@ -434,6 +435,9 @@ export const MissionControlDashboard: FC<MissionControlDashboardProps> = ({ onNa
           </div>
         </div>
       </div>
+
+      {/* 1.5 NASA FLIGHT READINESS & NOARD SURVEILLANCE HUD (image_92cdc03e & image_5161b84c) */}
+      <SpacecraftFlightHud onOpenWorkbench={() => onNavigate('spherex')} />
 
       {/* 2. SECTION A: NEXT UPCOMING ASTEROID ENCOUNTER TICKER */}
       {nextAsteroid && (

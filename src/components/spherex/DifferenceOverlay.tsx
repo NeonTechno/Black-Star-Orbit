@@ -8,7 +8,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ObservationFrame, TransientCandidate, StretchMode } from '../../types/index.ts';
 import { applyFluxStretch, getColorFromMap } from '../../science/spherexEngine.ts';
-import { AlertCircle, Crosshair, Sparkles, Sliders, ShieldCheck } from 'lucide-react';
+import { AlertCircle, Crosshair, Sparkles, Sliders, ShieldCheck, Download } from 'lucide-react';
+import { exportGenericCanvasPNG } from '../../science/spherexExport.ts';
 
 interface DifferenceOverlayProps {
   referenceFrame: ObservationFrame;
@@ -132,6 +133,23 @@ export const DifferenceOverlay: React.FC<DifferenceOverlayProps> = ({
 
   const visibleTransients = scienceFrame.transients.filter((t) => t.snr >= snrThreshold);
 
+  const [isExporting, setIsExporting] = useState<boolean>(false);
+  const handleDownloadDifferenceView = async () => {
+    if (!canvasRef.current) return;
+    setIsExporting(true);
+    try {
+      await exportGenericCanvasPNG(
+        canvasRef.current,
+        `SPHEREx_Difference_Residual_${scienceFrame.frameId}_vs_${referenceFrame.frameId}.png`,
+        `Difference Subtraction (Threshold: ${snrThreshold.toFixed(1)}σ)`
+      );
+    } catch (err) {
+      console.error('Difference view export failed:', err);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-4">
       {/* Header and Threshold slider */}
@@ -148,21 +166,38 @@ export const DifferenceOverlay: React.FC<DifferenceOverlayProps> = ({
           </div>
         </div>
 
-        {/* SNR Threshold control */}
-        <div className="flex items-center space-x-2 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 text-xs font-mono">
-          <Sliders className="h-3.5 w-3.5 text-cyan-400" />
-          <span className="text-slate-400">Detection Threshold:</span>
-          <span className="text-amber-400 font-bold">{snrThreshold.toFixed(1)}σ</span>
-          <input
-            type="range"
-            min={2.0}
-            max={15.0}
-            step={0.5}
-            value={snrThreshold}
-            onChange={(e) => setSnrThreshold(Number(e.target.value))}
-            aria-label="Transient detection signal-to-noise threshold in sigmas"
-            className="w-24 accent-amber-400 cursor-pointer"
-          />
+        <div className="flex items-center space-x-2">
+          {/* SNR Threshold control */}
+          <div className="flex items-center space-x-2 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 text-xs font-mono">
+            <Sliders className="h-3.5 w-3.5 text-cyan-400" />
+            <span className="text-slate-400">Detection Threshold:</span>
+            <span className="text-amber-400 font-bold">{snrThreshold.toFixed(1)}σ</span>
+            <input
+              type="range"
+              min={2.0}
+              max={15.0}
+              step={0.5}
+              value={snrThreshold}
+              onChange={(e) => setSnrThreshold(Number(e.target.value))}
+              aria-label="Transient detection signal-to-noise threshold in sigmas"
+              className="w-24 accent-amber-400 cursor-pointer"
+            />
+          </div>
+
+          {/* Download View Button */}
+          <button
+            onClick={handleDownloadDifferenceView}
+            disabled={isExporting}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-amber-600/20 hover:bg-amber-600/40 text-amber-300 border border-amber-500/40 text-xs font-mono font-semibold transition shadow-sm disabled:opacity-50"
+            title="Download Residual Map as PNG"
+          >
+            {isExporting ? (
+              <div className="h-3 w-3 border-2 border-amber-300/30 border-t-amber-300 rounded-full animate-spin" />
+            ) : (
+              <Download className="h-3.5 w-3.5" />
+            )}
+            <span>Download View</span>
+          </button>
         </div>
       </div>
 

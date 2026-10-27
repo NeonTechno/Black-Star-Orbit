@@ -1,0 +1,810 @@
+# PROJECT: GOD'S EYE VIEW
+## Build an Advanced Planetary Intelligence, Geospatial Visualization, and Simulation Platform
+
+Act as a principal software architect, senior full-stack engineer, geospatial intelligence specialist, AI systems engineer, data visualization expert, and real-time graphics developer.
+
+Your mission is to inspect the existing **God's Eye View repository**, understand its architecture, and evolve it into an advanced planetary intelligence platform.
+
+This is not a request to build a basic dashboard, a static globe, or a pretty landing page.
+
+I want a technically ambitious application capable of integrating diverse real-world data sources, visualizing planetary systems, identifying meaningful patterns, running simulations, and allowing users to interact with complex information through a unified interface.
+
+The platform should combine:
+
+- A high-performance interactive 3D Earth.
+- Geospatial intelligence.
+- Real-time and historical data integration.
+- Satellite and Earth-observation data.
+- Environmental monitoring.
+- Infrastructure and transportation visualization.
+- AI-assisted analytical workflows.
+- Event detection and anomaly analysis.
+- Scenario simulation.
+- A sophisticated command interface.
+- A futuristic holographic glass UI with controlled electric-lightning effects.
+
+**Build real functionality. Do not merely generate a mockup of what the system might look like.**
+
+---
+
+# 1. FIRST: INSPECT THE EXISTING REPOSITORY
+
+Start by locating and inspecting the actual God’s Eye View repository.
+
+If I have not provided the repository URL, ask me for it.
+
+Inspect:
+- README and project documentation.
+- Framework and application architecture.
+- Package configuration and dependencies.
+- Frontend components and routing.
+- Backend services and API endpoints.
+- Existing database and data models.
+- Authentication and authorization, if present.
+- Existing mapping, geospatial, and visualization libraries.
+- Current integrations and environment variables.
+- Existing tests and deployment configuration.
+- Unfinished or partially implemented features.
+
+Create a brief architectural assessment before changing the code.
+
+Identify the most valuable existing functionality and preserve it.
+
+Do not replace a functioning application with an unrelated starter template.
+
+Do not assume that existing features work merely because they appear in the UI. Trace their actual implementations.
+
+If repository access is unavailable, tell me what access is missing rather than pretending to have inspected the code.
+
+---
+
+# 2. CORE VISION: A UNIFIED PLANETARY INTELLIGENCE SYSTEM
+
+Create an interface that allows users to observe Earth from a global perspective and progressively investigate specific locations, events, systems, and datasets.
+
+The central experience should be an interactive, three-dimensional globe.
+
+Users should be able to:
+- Rotate and zoom the globe.
+- Search for locations.
+- Select geographic regions.
+- Inspect map layers.
+- Overlay different datasets.
+- Explore historical information.
+- Inspect events and observations.
+- Compare data across regions and time periods.
+- Launch analytical tools.
+- Run simulations.
+- Save investigation workspaces.
+
+The globe must be connected to the actual application state.
+
+Selecting a location should update relevant information panels. Enabling a data layer should change the visualization. Selecting a time range should update compatible datasets.
+
+Do not create disconnected widgets that merely look interactive.
+
+## Navigation modes
+
+Implement a coherent navigation system with the following workspaces:
+
+1. **Planetary Overview**
+2. **Live Intelligence**
+3. **Earth Observation**
+4. **Environmental Systems**
+5. **Geospatial Analysis**
+6. **Infrastructure and Mobility**
+7. **Event Detection**
+8. **Simulation Lab**
+9. **AI Analyst**
+10. **Data Explorer**
+11. **Investigation Workspaces**
+12. **System Diagnostics**
+
+Only expose workspaces that have meaningful implementations. Clearly label experimental or unavailable capabilities.
+
+---
+
+# 3. FEATURE ONE: HIGH-PERFORMANCE 3D PLANETARY GLOBE
+
+Build the central globe as a serious visualization component.
+
+Inspect existing libraries before selecting a graphics stack.
+
+Consider CesiumJS, deck.gl, MapLibre GL JS, Three.js, or another appropriate tool based on the repository's requirements.
+
+Do not install multiple overlapping libraries without a clear reason.
+
+## Required capabilities
+
+### Globe navigation
+- Smooth rotation.
+- Zoom and pan.
+- Geographic coordinate display.
+- Location search.
+- Selectable points of interest.
+- Region selection where supported.
+- Camera transitions to selected locations.
+- Reset-to-global-view control.
+- Fullscreen exploration.
+
+### Geographic layers
+Support an extensible layer system for:
+- Base maps.
+- Terrain or elevation.
+- Satellite imagery.
+- Weather observations.
+- Temperature.
+- Precipitation.
+- Vegetation.
+- Wildfire detections.
+- Flood observations.
+- Air quality.
+- Population and infrastructure datasets where appropriately sourced.
+- User-imported geospatial data.
+
+Only show a layer as available when its data source or implementation exists.
+
+### Object inspector
+
+When a user selects a geographic object, open a contextual information panel.
+
+Display the information that is actually available:
+- Object or location name.
+- Coordinates.
+- Relevant measurements.
+- Observation timestamp.
+- Data source.
+- Spatial resolution, where applicable.
+- Data freshness.
+- Uncertainty or quality information.
+- Related datasets.
+
+### Performance
+
+The globe must remain responsive.
+
+Use appropriate level-of-detail techniques, viewport-based rendering, data filtering, caching, and efficient rendering strategies.
+
+Avoid rendering thousands of unnecessary DOM elements over the globe.
+
+---
+
+# 4. FEATURE TWO: MULTI-SOURCE DATA FUSION
+
+Create a modular data integration architecture.
+
+The system should be able to combine compatible datasets from multiple sources while preserving their provenance.
+
+Potential data categories include:
+
+- Earth observation.
+- Weather and climate.
+- Environmental conditions.
+- Geographic boundaries.
+- Infrastructure.
+- Transportation.
+- Natural hazards.
+- Scientific observations.
+- Publicly available demographic datasets.
+- Historical events.
+- User-supplied geospatial data.
+
+## Data connector architecture
+
+Create a reusable connector interface that supports:
+- Data-source configuration.
+- Request validation.
+- Authentication where required.
+- Timeouts.
+- Rate-limit handling.
+- Retries with backoff.
+- Caching.
+- Response normalization.
+- Error reporting.
+- Source attribution.
+- Retrieval timestamps.
+- Data-quality metadata.
+
+Each connector should expose a clear contract.
+
+Avoid embedding provider-specific logic throughout the UI.
+
+Where appropriate, normalize data into shared representations such as:
+- GeoJSON.
+- Geographic coordinates.
+- Time-indexed observations.
+- Raster tiles.
+- Vector tiles.
+- Typed event records.
+- Time-series observations.
+
+Do not force incompatible datasets into a single schema if that would lose important information.
+
+## Suggested sources to evaluate
+
+Use authoritative public sources when suitable, including:
+
+- NASA Earthdata.
+- NASA FIRMS for fire observations.
+- NOAA for relevant weather and environmental data.
+- Copernicus and Sentinel data services.
+- USGS for appropriate geological and Earth-observation data.
+- OpenStreetMap for suitable geographic information.
+- Other official or scientifically credible open-data providers.
+
+Verify each service's current API, access requirements, rate limits, terms, and data availability.
+
+Do not assume all services have unrestricted APIs.
+
+Do not expose credentials in client-side JavaScript.
+
+Provide useful fallback states when a provider is unavailable.
+
+---
+
+# 5. FEATURE THREE: TEMPORAL PLANETARY EXPLORATION
+
+Build a time-navigation system that lets users explore changes across time.
+
+The interface should include:
+- A timeline.
+- Date and time selection.
+- Playback controls for supported time-series datasets.
+- Adjustable playback speed.
+- Pause and resume.
+- Previous and next observation.
+- Historical comparison.
+- Current-data indicator.
+- Dataset-specific temporal coverage.
+
+When users change the timeline, update the layers that support the selected time.
+
+Do not animate historical data as though it were live.
+
+Show the actual timestamp and time zone when known.
+
+If different datasets have different temporal resolutions, communicate that clearly.
+
+For example, satellite imagery may be available at discrete observation times, while some weather products update more frequently.
+
+The system must not fabricate intermediate observations simply to make an animation appear continuous.
+
+---
+
+# 6. FEATURE FOUR: EARTH OBSERVATION AND ENVIRONMENTAL MONITORING
+
+Create an Earth-observation workspace that combines appropriate environmental datasets.
+
+Potential modules include:
+
+### Fire and thermal anomalies
+- Display verified observations from an appropriate source.
+- Show observation time.
+- Distinguish detection from confirmed ground impact.
+- Allow filtering by time and geographic region.
+- Provide source links and relevant confidence information.
+
+### Weather and atmospheric conditions
+- Display available weather observations or forecasts.
+- Distinguish observed values from model forecasts.
+- Include units and retrieval times.
+- Support geographic and temporal filtering.
+
+### Flooding and water systems
+- Visualize relevant flood observations or published hazard products when available.
+- Distinguish observed flooding from modeled risk.
+- Display dataset limitations.
+
+### Vegetation and land cover
+- Explore supported vegetation indices or land-cover products.
+- Explain the meaning of the displayed measurements.
+- Preserve spatial resolution and observation-date information.
+
+### Air quality
+- Display supported measurements or model estimates.
+- Identify the measurement source and spatial coverage.
+- Distinguish direct observations from interpolated estimates.
+
+### Climate analysis
+- Compare historical observations.
+- Display trends where sufficient data exists.
+- Explain the period covered and methodology.
+
+Do not label the platform as a validated emergency-warning system unless it meets the necessary operational, scientific, and safety requirements.
+
+---
+
+# 7. FEATURE FIVE: EVENT DETECTION AND ANOMALY ANALYSIS
+
+Build an event-processing architecture that identifies unusual patterns in supported datasets.
+
+Examples include:
+- Sudden changes in a measured environmental variable.
+- New observations within a defined geographic region.
+- Significant deviations from a documented baseline.
+- Clusters of similar events.
+- Unexpected changes in a time series.
+- Conflicting or inconsistent observations from multiple sources.
+
+## Event pipeline
+
+Implement a pipeline with clear stages:
+
+1. Ingest source data.
+2. Validate the input.
+3. Normalize compatible fields.
+4. Apply documented detection rules.
+5. Assign a result and relevant confidence information.
+6. Store or cache the result where appropriate.
+7. Display the event geographically.
+8. Allow the user to inspect its evidence.
+9. Preserve source references and timestamps.
+
+## Important rules
+
+- Separate detected anomalies from verified real-world events.
+- Explain the baseline and threshold used.
+- Do not fabricate confidence scores.
+- Do not present correlation as causation.
+- Preserve original measurements.
+- Make detection parameters inspectable.
+- Allow users to distinguish algorithmic results from official reports.
+
+Where there is not enough data for meaningful anomaly detection, explain the limitation.
+
+---
+
+# 8. FEATURE SIX: GEOSPATIAL ANALYSIS WORKBENCH
+
+Build a powerful spatial-analysis workspace.
+
+Support appropriate operations such as:
+
+- Point and coordinate inspection.
+- Bounding-box selection.
+- Radius-based search.
+- Geographic filtering.
+- Distance calculations.
+- Area calculations.
+- Spatial intersections.
+- Point-in-polygon queries.
+- Dataset overlays.
+- Heatmaps.
+- Density visualization.
+- Clustering.
+- Before-and-after comparisons.
+- Exporting analysis results.
+
+For uploaded data, consider supporting:
+- GeoJSON.
+- CSV files containing coordinates.
+- Other geospatial formats only when the application can parse them reliably.
+
+Validate uploaded files and set reasonable size limits.
+
+Clearly communicate coordinate reference systems, units, and any transformations performed.
+
+Where appropriate, use a suitable geospatial library or database instead of implementing complicated spatial operations from scratch.
+
+Do not present approximate spherical calculations as survey-grade geodesic measurements.
+
+---
+
+# 9. FEATURE SEVEN: AI PLANETARY ANALYST
+
+Create an AI-assisted analysis interface that helps users investigate geographic and scientific information.
+
+The analyst should be able to:
+- Explain visible map layers.
+- Summarize selected datasets.
+- Compare selected regions.
+- Explain changes over time.
+- Identify possible patterns in available observations.
+- Suggest additional datasets.
+- Generate analytical summaries.
+- Explain uncertainties and limitations.
+- Produce reproducible investigation steps.
+
+## Tool-based architecture
+
+Do not rely exclusively on free-form text generation.
+
+Give the AI access to controlled, explicitly defined tools for:
+- Searching available datasets.
+- Retrieving supported observations.
+- Querying spatial data.
+- Summarizing time-series data.
+- Comparing selected regions.
+- Running approved analytical operations.
+- Retrieving source metadata.
+
+The AI should use actual tool results when making data-specific claims.
+
+If the system has no data for a requested region or period, it must say so.
+
+The AI must not invent observations, API responses, geographic coordinates, or scientific sources.
+
+### Example workflow
+
+A user asks:
+
+"Compare available fire observations in this region over the last seven days with the preceding seven days."
+
+The system should:
+1. Resolve the selected geographic region.
+2. Check which relevant datasets are available.
+3. Retrieve the required observations.
+4. Apply the specified date ranges.
+5. Calculate a comparison using actual records.
+6. Explain data coverage and limitations.
+7. Show the observations on the map.
+8. Provide an inspectable result with source references.
+
+The AI should not claim that this workflow succeeded unless every required stage actually completed.
+
+Keep model credentials server-side and use environment variables.
+
+If an AI service is not configured, provide a useful non-AI analysis mode.
+
+---
+
+# 10. FEATURE EIGHT: SCENARIO SIMULATION LAB
+
+Create a simulation workspace for exploring hypothetical scenarios.
+
+Potential simulations include:
+- Changes in environmental measurements.
+- Hypothetical movement of an event boundary.
+- Spatial propagation under explicitly stated assumptions.
+- Alternative threshold settings for anomaly detection.
+- Comparative geographic scenarios.
+- Time-series projections using suitable statistical methods.
+
+Each simulation must distinguish:
+- Input observations.
+- User-defined assumptions.
+- Model parameters.
+- Simulated outputs.
+- Known limitations.
+
+Do not represent a visualization as a scientifically validated predictive model merely because it looks realistic.
+
+Where appropriate, allow users to:
+- Change parameters.
+- Run scenarios.
+- Compare outputs.
+- Reset the simulation.
+- Export results.
+- Save scenario configurations.
+
+For computationally expensive tasks, use background jobs or worker processes when appropriate.
+
+---
+
+# 11. FEATURE NINE: INVESTIGATION WORKSPACES
+
+Allow users to create reusable investigation workspaces.
+
+A workspace may contain:
+- A selected geographic area.
+- Active map layers.
+- Time range.
+- Selected objects.
+- Saved searches.
+- Analysis results.
+- Relevant source links.
+- Notes.
+- Simulation parameters.
+- Exportable reports.
+
+Use the existing persistence architecture if one exists.
+
+If the application does not require accounts, consider local storage or a simple project-file format before adding authentication.
+
+If accounts and shared workspaces already exist, preserve their access-control boundaries.
+
+Do not introduce a large authentication system without a clear need.
+
+---
+
+# 12. FEATURE TEN: REPORTS AND EXPORTS
+
+Allow users to turn an investigation into a structured report.
+
+Where technically appropriate, support:
+- Exporting map views.
+- Downloading filtered data.
+- Exporting supported results as CSV or GeoJSON.
+- Producing summaries with source references.
+- Recording analysis parameters.
+- Including observation timestamps.
+- Listing limitations and missing data.
+- Exporting saved workspace configurations.
+
+Reports must distinguish measured data, calculated results, modeled outputs, and AI-generated explanations.
+
+Never silently remove important uncertainty or provenance information.
+
+---
+
+# 13. FEATURE ELEVEN: FUTURISTIC GOD'S EYE INTERFACE
+
+The interface must feel like an advanced planetary command system.
+
+Use a restrained, high-quality visual language.
+
+## Visual identity
+
+- Deep black and midnight-blue backgrounds.
+- Electric cyan highlights.
+- Ice-blue luminous borders.
+- Violet accents.
+- Translucent dark glass.
+- Fine technical grid lines.
+- Subtle coordinate markings.
+- Sophisticated typography.
+- High-contrast information panels.
+
+The globe should remain the main visual focus.
+
+Avoid overwhelming the map with decorative panels.
+
+## Electric glass effects
+
+Create a reusable visual system featuring:
+- Animated energy travelling along panel borders.
+- Subtle electrical arcs on selected controls.
+- Luminous hover states.
+- Short energy pulses during important transitions.
+- Soft ambient glows.
+- Thin SVG lightning paths.
+- Gradient sweeps across glass surfaces.
+- Restrained particle effects.
+
+Lightning should feel like controlled energy in a sophisticated scientific interface.
+
+Do not use constant flashing or large random lightning bolts across the entire screen.
+
+## Interactive effects
+
+Use energy effects when:
+- A workspace is activated.
+- A layer is enabled.
+- A geographic object is selected.
+- A simulation starts.
+- A major analysis finishes.
+- A panel becomes active.
+
+Provide immediate feedback and avoid delaying user actions for visual effects.
+
+## Layout
+
+Use a coherent arrangement of:
+- Main globe canvas.
+- Compact navigation.
+- Collapsible side panels.
+- Layer controls.
+- Timeline.
+- Contextual information panel.
+- Status indicators.
+- Search and command interface.
+
+On smaller screens, simplify the layout and use expandable panels instead of forcing the entire desktop interface onto a phone.
+
+---
+
+# 14. FEATURE TWELVE: GLOBAL COMMAND CENTER
+
+Implement a keyboard-accessible command palette.
+
+Suggested shortcut: Cmd/Ctrl + K.
+
+Users should be able to:
+- Navigate between workspaces.
+- Search locations.
+- Search available datasets.
+- Toggle supported layers.
+- Jump to coordinates.
+- Open saved investigations.
+- Start supported analyses.
+- Change the selected time range.
+- Access help and keyboard shortcuts.
+
+Only expose commands that actually work.
+
+Include keyboard navigation, focus management, and an escape action.
+
+---
+
+# 15. FEATURE THIRTEEN: DATA QUALITY AND SYSTEM DIAGNOSTICS
+
+Build a diagnostics workspace for understanding the state of the system.
+
+Display:
+- Available data sources.
+- Connector health.
+- Most recent successful retrieval.
+- Current retrieval errors.
+- Cache status.
+- Missing credentials.
+- Rate-limit conditions.
+- Dataset temporal coverage.
+- Data freshness.
+- Application version.
+- Background-task status where applicable.
+
+Never reveal secret keys, authentication tokens, private server configuration, or sensitive internal details.
+
+Distinguish an operational application from a connected provider. A healthy application does not necessarily mean every external data source is available.
+
+---
+
+# 16. SECURITY AND RESPONSIBLE DESIGN
+
+Because this platform aggregates geographically meaningful information, implement sensible security boundaries.
+
+- Validate all external and user-supplied input.
+- Protect server-side secrets.
+- Apply appropriate API rate limits.
+- Use authorization checks for private workspaces.
+- Avoid exposing sensitive infrastructure information.
+- Respect source licensing and usage restrictions.
+- Avoid collecting unnecessary personal data.
+- Sanitize rendered external content.
+- Avoid executing uploaded files.
+- Apply size and resource limits to data processing.
+- Log operational errors without leaking credentials.
+
+Do not implement covert tracking, unauthorized surveillance, or mechanisms for identifying or tracking private individuals.
+
+Design the platform for scientific observation, environmental understanding, geospatial analysis, public-interest research, and legitimate operational use.
+
+---
+
+# 17. TECHNICAL ARCHITECTURE
+
+Inspect the existing stack before making architectural decisions.
+
+Use modular components and clear separation of concerns.
+
+A possible architecture, if compatible with the current repository, is:
+
+### Frontend
+- React and TypeScript.
+- Existing routing framework.
+- Appropriate globe or mapping engine.
+- Reusable visualization components.
+- Typed API clients.
+- A consistent design-token system.
+
+### Backend
+- Existing backend framework where possible.
+- Modular data connectors.
+- Request validation.
+- Caching.
+- Spatial-query services.
+- Event-processing services.
+- Controlled AI tool execution.
+- Background processing when necessary.
+
+### Data storage
+Select storage based on actual requirements.
+
+Potential options include:
+- PostgreSQL with PostGIS for spatial queries.
+- Object storage for larger datasets.
+- Redis for suitable caching and task coordination.
+- Local files for lightweight development fixtures.
+
+Do not add every technology just because it appears in this prompt.
+
+Use the smallest architecture that can reliably support the required features.
+
+### Testing
+Implement appropriate tests for:
+- Data normalization.
+- Connector error handling.
+- Spatial operations.
+- Time-range filtering.
+- Anomaly-detection rules.
+- API validation.
+- Authentication and authorization where present.
+- Core UI interactions.
+
+---
+
+# 18. IMPLEMENTATION PLAN
+
+Work in deliberate phases.
+
+## Phase A: Reconnaissance
+Inspect the repository and document the existing architecture, working features, missing capabilities, and major risks.
+
+## Phase B: Core visualization
+Build or improve the interactive globe and ensure it works with the existing navigation and application state.
+
+## Phase C: Data infrastructure
+Implement a typed data-connector architecture, source attribution, timestamps, caching, and error handling.
+
+## Phase D: Initial live datasets
+Integrate a small number of valuable, authoritative data sources and demonstrate end-to-end functionality.
+
+Prioritize a few real integrations over dozens of empty connectors.
+
+## Phase E: Analysis
+Implement geospatial filtering, temporal comparison, and an initial evidence-based anomaly-detection workflow.
+
+## Phase F: AI and simulation
+Connect the AI analyst to real application tools and implement a useful simulation with clearly stated assumptions.
+
+## Phase G: Interface refinement
+Add polished glass surfaces, electric effects, command navigation, responsive layouts, and accessible interactions.
+
+## Phase H: Verification
+Run the available build, lint, and test commands.
+
+Fix errors introduced by the changes.
+
+Verify that:
+- The globe renders.
+- Data layers can be enabled and disabled.
+- Available data sources return correctly structured results.
+- Missing sources produce understandable errors.
+- Time controls update supported layers.
+- The AI does not fabricate missing observations.
+- Analysis results can be inspected.
+- Export functionality works.
+- The application remains usable on mobile.
+- Reduced-motion preferences are respected.
+
+If a check cannot be run, identify it explicitly as unverified.
+
+---
+
+# 19. ACCEPTANCE CRITERIA
+
+The implementation is not complete merely because the UI looks impressive.
+
+At minimum, the completed application should have:
+
+1. A functioning interactive globe or geographic visualization.
+2. Working navigation between implemented workspaces.
+3. At least two meaningful, real data integrations where credentials and access permit.
+4. Clear data-source attribution and retrieval timestamps.
+5. A working geographic or temporal filtering workflow.
+6. At least one useful analysis based on actual retrieved data.
+7. Proper error and unavailable states.
+8. A responsive futuristic interface.
+9. Secure handling of external API credentials.
+10. Build and test results that are honestly reported.
+
+Where external services are unavailable, implement an explicit development fallback and explain what remains unverified.
+
+Do not count static placeholder cards as completed integrations.
+
+---
+
+# 20. FINAL INSTRUCTION
+
+Inspect the actual God's Eye View repository first.
+
+Then improve the existing application without destroying working functionality.
+
+Prioritize the most technically valuable features and implement them end to end.
+
+Do not just provide a roadmap when you have the tools and permissions to write the code.
+
+Do not pretend to have access to external services, live data, repositories, or credentials that are unavailable.
+
+Do not claim that tests passed unless they were actually run.
+
+At the end, report:
+- What was implemented.
+- What existing functionality was preserved.
+- Which external data sources work.
+- Which features remain incomplete.
+- Which environment variables are required.
+- Which tests were run and their results.
+- The next most valuable engineering steps.
+
+**The final product should feel like a powerful planetary research and analysis system—not a fake surveillance dashboard, not a static globe, and not merely a collection of glowing cards.**

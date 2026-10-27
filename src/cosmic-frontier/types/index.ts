@@ -1,4 +1,4 @@
-export type AppPage = 'home' | 'mission-control' | 'observatory' | 'universe' | 'live-space' | 'asteroid-watch' | 'exoplanets' | 'galaxies' | 'spherex' | 'planet-x' | 'data-centre' | 'guide' | 'ai-guide' | 'about';
+export type AppPage = 'home' | 'mission-control' | 'observatory' | 'universe' | 'live-space' | 'asteroid-watch' | 'exoplanets' | 'galaxies' | 'spherex' | 'planet-x' | 'data-centre' | 'guide' | 'ai-guide' | 'about' | 'astrobiology';
 
 export type AstronomicalAssetClassification = 
   | 'observation'

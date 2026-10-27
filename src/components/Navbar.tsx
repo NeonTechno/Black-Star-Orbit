@@ -6,13 +6,15 @@
  */
 
 import React from 'react';
-import { Compass, Telescope, Orbit, Database, Sparkles, Activity, ShieldCheck, Globe } from 'lucide-react';
+import { Telescope, Orbit, Database, Sparkles, Activity, ShieldCheck, Globe, FlaskConical, ImageIcon } from 'lucide-react';
+import { BlackStarLogo } from './common/BlackStarLogo.tsx';
 
 interface NavbarProps {
-  activeTab: 'spherex' | 'planetx' | 'architecture' | 'cosmic-suite';
-  setActiveTab: (tab: 'spherex' | 'planetx' | 'architecture' | 'cosmic-suite') => void;
+  activeTab: 'spherex' | 'planetx' | 'astrobiology' | 'architecture' | 'cosmic-suite';
+  setActiveTab: (tab: 'spherex' | 'planetx' | 'astrobiology' | 'architecture' | 'cosmic-suite') => void;
   onOpenAiAssistant: () => void;
   onOpenDataModal: () => void;
+  onOpenIntroModal?: () => void;
   serverStatusOk: boolean;
 }
 
@@ -21,27 +23,26 @@ export const Navbar: React.FC<NavbarProps> = ({
   setActiveTab,
   onOpenAiAssistant,
   onOpenDataModal,
+  onOpenIntroModal,
   serverStatusOk,
 }) => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#060914]/90 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.16)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 grid grid-cols-1 xl:grid-cols-[minmax(220px,1fr)_auto_auto] gap-3 items-center">
+    <header className="sticky top-0 z-40 w-full border-b border-cyan-500/20 bg-[#060914]/90 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 grid grid-cols-1 xl:grid-cols-[minmax(260px,1fr)_auto_auto] gap-3 items-center">
         
         {/* Brand & Mission Title */}
         <div className="flex items-center space-x-3">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-cyan-300 via-sky-500 to-violet-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 ring-1 ring-white/20">
-            <Compass className="h-6 w-6 text-white" />
-          </div>
+          <BlackStarLogo size="md" />
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
+              <span className="font-nasa text-[10px] font-semibold uppercase tracking-wider text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-500/40 shadow-[0_0_8px_rgba(56,189,248,0.25)]">
                 NASA Space Apps 2026
               </span>
               <span className="hidden sm:inline-flex items-center text-[10px] text-amber-400 font-mono bg-amber-950/40 px-1.5 py-0.5 rounded border border-amber-800/40">
                 <ShieldCheck className="h-3 w-3 mr-1" /> Grounded Telemetry
               </span>
             </div>
-            <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
+            <h1 className="text-base sm:text-lg font-bold tracking-wider text-white flex items-center gap-1.5 font-nasa">
               BLACK STAR ORBIT
             </h1>
           </div>
@@ -74,6 +75,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           <button
+            onClick={() => setActiveTab('astrobiology')}
+            className={`flex items-center shrink-0 space-x-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+              activeTab === 'astrobiology'
+                ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/50 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+            }`}
+          >
+            <FlaskConical className="h-4 w-4" />
+            <span>Astrobiology Lab</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('cosmic-suite')}
             className={`flex items-center shrink-0 space-x-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
               activeTab === 'cosmic-suite'
@@ -100,6 +113,18 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Quick Tools & AI Copilot */}
         <div className="flex items-center justify-end gap-2 flex-wrap">
+          {/* Intro Picture button */}
+          {onOpenIntroModal && (
+            <button
+              onClick={onOpenIntroModal}
+              className="flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-mono bg-cyan-950/50 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-900/40 hover:border-cyan-400 transition whitespace-nowrap cursor-pointer shadow-[0_0_12px_rgba(56,189,248,0.2)]"
+              title="View Website Cosmic Dust Intro & Launch Artwork"
+            >
+              <ImageIcon className="h-3.5 w-3.5 text-cyan-400" />
+              <span className="hidden sm:inline">Intro Visual</span>
+            </button>
+          )}
+
           {/* Data status button */}
           <button
             onClick={onOpenDataModal}

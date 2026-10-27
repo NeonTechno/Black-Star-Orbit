@@ -1064,8 +1064,9 @@ export const LiveCosmicObservatory: FC<LiveCosmicObservatoryProps> = ({ onNaviga
             </div>
 
             {/* 3. INTERACTIVE PLAYBACK TIMELINE CONTROLS */}
-            <div className="p-4 rounded-xl bg-[#050B1A] border border-[#1E293B] space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-4 rounded-xl bg-[#050B1A] border border-[#1E293B] space-y-3.5">
+              {/* Playback Controls & Speed Selector Row */}
+              <div className="flex flex-wrap items-center justify-between gap-3">
                 {/* Play, Pause, Step Buttons */}
                 <div className="flex items-center gap-2">
                   <button
@@ -1128,17 +1129,33 @@ export const LiveCosmicObservatory: FC<LiveCosmicObservatoryProps> = ({ onNaviga
                     </button>
                   ))}
                 </div>
+              </div>
 
-                {/* Date Input Selector */}
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#38BDF8]" />
+              {/* Dedicated Calendar & Ephemeris Epoch Control Bar */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#1E293B]/70 bg-[#070D1E]/60 p-3 rounded-lg border border-[#1E293B]/60">
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <div className="flex items-center gap-2 text-xs font-mono font-medium text-[#A7B4CC]">
+                    <div className="p-1.5 rounded-md bg-[#0E1B38] border border-[#38BDF8]/30 shadow-[0_0_8px_rgba(56,189,248,0.2)]">
+                      <Calendar className="w-4 h-4 text-[#38BDF8]" />
+                    </div>
+                    <span>Observation Date & Time (UTC):</span>
+                  </div>
                   <input
                     type="datetime-local"
                     value={dateInputVal}
                     onChange={handleDateInputChange}
-                    className="px-2.5 py-1.5 rounded-lg bg-[#030712] border border-[#1E293B] text-xs font-mono text-[#F8FAFC] focus:outline-none focus:border-[#38BDF8]"
+                    className="px-3 py-1.5 rounded-lg bg-[#030712] border border-[#1E293B] hover:border-[#38BDF8]/50 focus:border-[#38BDF8] text-xs font-mono text-[#F8FAFC] focus:outline-none shadow-inner tracking-wide [color-scheme:dark] transition-colors"
                   />
                 </div>
+
+                <button
+                  onClick={() => handleSelectPreset(new Date().toISOString())}
+                  className="px-2.5 py-1.5 rounded-lg bg-[#0E1B38] hover:bg-[#1E293B] border border-[#1E293B] hover:border-[#38BDF8]/40 text-xs font-mono text-[#38BDF8] transition-all cursor-pointer flex items-center justify-center gap-1.5 self-start sm:self-auto"
+                  title="Synchronize to Current Real-Time UTC"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Now (UTC)</span>
+                </button>
               </div>
 
               {/* Preset Astronomical Milestones */}

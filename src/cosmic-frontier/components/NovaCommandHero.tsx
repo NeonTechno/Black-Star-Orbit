@@ -10,6 +10,7 @@ import {
   Orbit,
   ArrowDown
 } from 'lucide-react';
+import { BlackStarLogo } from '../../components/common/BlackStarLogo';
 
 interface NovaCommandHeroProps {
   onNavigate: (page: AppPage) => void;
@@ -20,8 +21,14 @@ export const NovaCommandHero: FC<NovaCommandHeroProps> = ({ onNavigate }) => {
 
   return (
     <section className="relative w-full min-h-[95vh] bg-[#050811] text-[#F8FAFC] overflow-hidden rounded-2xl border border-[#1E293B]/80 shadow-2xl p-4 sm:p-8 lg:p-10 flex flex-col justify-between">
-      {/* Background Starfield & Subtle Nebular Gradients */}
+      {/* Background Official Launching Image & Subtle Nebular Gradients */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <img
+          src="/assets/cosmic-dust-universe.jpg"
+          alt="Black Star Orbit Cosmic Dust Deep Universe"
+          className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-screen scale-105 select-none"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050811] via-[#050811]/60 to-[#050811]/75" />
         {/* Soft radial glow under planet */}
         <div className="absolute -right-20 top-1/4 w-162.5 h-162.5 bg-[#38BDF8]/10 rounded-full blur-[140px]" />
         <div className="absolute left-10 bottom-1/3 w-125 h-125 bg-[#8B5CF6]/10 rounded-full blur-[140px]" />
@@ -31,18 +38,14 @@ export const NovaCommandHero: FC<NovaCommandHeroProps> = ({ onNavigate }) => {
 
       {/* TOP COMMAND BAR */}
       <div className="relative z-20 flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#1E293B]/60">
-        {/* Brand Icon & Name */}
+        {/* Brand Icon & Mission Identity */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#0B1329] border border-[#38BDF8]/40 flex items-center justify-center shadow-lg shadow-[#38BDF8]/10">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-[#38BDF8]">
-              <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor" />
-            </svg>
-          </div>
+          <BlackStarLogo size="md" />
           <div>
-            <span className="font-mono font-black text-lg tracking-[0.2em] text-[#F8FAFC]">
+            <span className="font-nasa font-bold text-base sm:text-lg tracking-wider text-[#F8FAFC]">
               BLACK STAR ORBIT
             </span>
-            <span className="hidden sm:inline-block ml-2 text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30">
+            <span className="hidden sm:inline-block ml-2 text-[9px] font-nasa uppercase px-2 py-0.5 rounded bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30">
               NASA SPACE APPS 2026
             </span>
           </div>
@@ -126,9 +129,9 @@ export const NovaCommandHero: FC<NovaCommandHeroProps> = ({ onNavigate }) => {
             <span>NASA SPACE APPS • ASTRONOMICAL PLATFORM</span>
           </div>
 
-          {/* Clean Editorial Headline */}
+          {/* Clean Editorial Headline in NASA Worm Typography */}
           <div className="space-y-2">
-            <h1 className="text-3xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-[#F8FAFC] leading-[1.08]">
+            <h1 className="text-3xl sm:text-5xl xl:text-6xl font-extrabold tracking-wider text-[#F8FAFC] leading-[1.08] font-nasa uppercase">
               Explore the Universe.
               <br />
               <span className="text-transparent bg-clip-text bg-linear-to-r from-[#38BDF8] via-[#8B5CF6] to-[#F5C451]">
@@ -145,7 +148,7 @@ export const NovaCommandHero: FC<NovaCommandHeroProps> = ({ onNavigate }) => {
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
               onClick={() => onNavigate('spherex')}
-              className="px-7 py-3.5 rounded-full bg-[#FFFFFF] hover:bg-[#F1F5F9] text-[#050811] font-bold text-sm tracking-wide shadow-xl hover:shadow-[#FFFFFF]/20 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer"
+              className="px-7 py-3.5 rounded-full bg-[#FFFFFF] hover:bg-[#F1F5F9] text-[#050811] font-bold text-sm tracking-widest shadow-xl hover:shadow-[#FFFFFF]/20 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer font-nasa uppercase"
             >
               <Telescope className="w-4 h-4 text-[#0284C7]" />
               <span>SPHEREx EXPLORER</span>
@@ -154,164 +157,65 @@ export const NovaCommandHero: FC<NovaCommandHeroProps> = ({ onNavigate }) => {
 
             <button
               onClick={() => onNavigate('planet-x')}
-              className="px-6 py-3.5 rounded-full bg-[#0B1329]/90 hover:bg-[#131D38] text-[#F8FAFC] border border-[#8B5CF6]/50 hover:border-[#8B5CF6] font-semibold text-sm shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer backdrop-blur-sm"
+              className="px-6 py-3.5 rounded-full bg-[#0B1329]/90 hover:bg-[#131D38] text-[#F8FAFC] border border-[#8B5CF6]/50 hover:border-[#8B5CF6] font-semibold text-sm tracking-wider shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer backdrop-blur-sm font-nasa uppercase"
             >
               <Orbit className="w-4 h-4 text-[#C084FC]" />
-              <span>PLANET X INVESTIGATION LAB</span>
+              <span>PLANET X LAB</span>
             </button>
           </div>
         </div>
 
-        {/* CENTER/RIGHT COLUMN (5 Cols): Massive Glowing Exoplanet/World Artwork */}
-        <div className="lg:col-span-5 relative flex items-center justify-center">
-          <div className="relative w-full max-w-105 aspect-square flex items-center justify-center">
-            {/* Target World Floating Badge (Exactly like NOVA 'TARGET: KEPLER-186F') */}
-            <div className="absolute top-4 right-2 sm:right-6 z-20 p-3 rounded-2xl bg-[#070D1E]/80 border border-[#38BDF8]/40 backdrop-blur-xl shadow-2xl space-y-0.5">
-              <span className="text-[9px] font-mono uppercase text-[#A7B4CC] tracking-wider block">
-                TARGET WORLD
-              </span>
-              <h4 className="text-sm font-mono font-bold text-[#F8FAFC]">
-                {activeTarget === 'planet-x' ? 'PLANET X [HYPOTHETICAL]' : activeTarget === 'saturn' ? 'SATURN (SOL VI)' : 'SPHEREx MIDEX'}
-              </h4>
-              <span className="text-[10px] font-mono text-[#38BDF8] block">
-                {activeTarget === 'planet-x' ? 'DISTANCE: ~420 AU' : activeTarget === 'saturn' ? 'DISTANCE: 9.58 AU' : '102 SPECTRAL CHANNELS'}
+        {/* CENTER/RIGHT COLUMN: Official Mission Launch Horizon Artwork Showcase */}
+        <div className="lg:col-span-6 relative flex items-center justify-center">
+          <div className="relative w-full max-w-xl aspect-16/9 sm:aspect-16/10 rounded-2xl overflow-hidden border border-cyan-500/40 shadow-[0_0_55px_rgba(56,189,248,0.35)] group bg-[#070D1E]">
+            {/* Launching & Intro Cosmic Dust Image */}
+            <img
+              src="/assets/cosmic-dust-universe.jpg"
+              alt="Black Star Orbit Cosmic Dust Deep Universe Presentation"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out select-none"
+            />
+
+            {/* Glowing Luminous Borders & Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050811]/95 via-transparent to-[#050811]/30 pointer-events-none" />
+            <div className="absolute inset-0 border-2 border-cyan-400/30 rounded-2xl pointer-events-none shadow-[inset_0_0_35px_rgba(56,189,248,0.25)]" />
+
+            {/* Floating Live Telemetry Badge (Top Right) */}
+            <div className="absolute top-3.5 right-3.5 z-20 px-3 py-1.5 rounded-xl bg-[#050B1A]/85 border border-cyan-500/40 backdrop-blur-md shadow-xl flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[10px] font-nasa uppercase text-cyan-300 font-semibold tracking-wider">
+                COSMIC DUST HORIZON
               </span>
             </div>
 
-            {/* Glowing Celestial Body SVG Illustration */}
-            <svg viewBox="0 0 400 400" className="w-full h-full overflow-visible drop-shadow-[0_0_50px_rgba(56,189,248,0.25)]">
-              <defs>
-                {/* Planet Body Gradient */}
-                <radialGradient id="novaPlanetBody" cx="30%" cy="25%" r="75%">
-                  <stop offset="0%" stopColor="#E0F2FE" />
-                  <stop offset="25%" stopColor="#38BDF8" />
-                  <stop offset="55%" stopColor="#0369A1" />
-                  <stop offset="85%" stopColor="#071739" />
-                  <stop offset="100%" stopColor="#030712" />
-                </radialGradient>
+            {/* Target World Floating Badge (Top Left) */}
+            <div className="absolute top-3.5 left-3.5 z-20 px-3 py-1.5 rounded-xl bg-[#050B1A]/85 border border-white/10 backdrop-blur-md shadow-xl space-y-0.5">
+              <span className="text-[9px] font-nasa uppercase text-[#A7B4CC] tracking-wider block">
+                FLAGSHIP ORBIT
+              </span>
+              <span className="text-xs font-nasa font-bold text-white block">
+                NASA SPACE APPS 2026
+              </span>
+            </div>
 
-                {/* Atmospheric Rim Glow */}
-                <radialGradient id="atmoGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="70%" stopColor="#38BDF8" stopOpacity="0" />
-                  <stop offset="92%" stopColor="#38BDF8" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#7DD3FC" stopOpacity="0.9" />
-                </radialGradient>
+            {/* Bottom Floating Mission Console Bar */}
+            <div className="absolute bottom-3 left-3 right-3 z-20 p-3 sm:p-3.5 rounded-xl bg-[#050B1A]/90 border border-white/10 backdrop-blur-md flex items-center justify-between gap-2">
+              <div>
+                <span className="text-[9px] font-nasa uppercase text-cyan-400 tracking-widest block">
+                  ORBITAL PLATFORM
+                </span>
+                <h4 className="text-xs sm:text-sm font-nasa font-bold text-white tracking-wider">
+                  BLACK STAR ORBIT
+                </h4>
+              </div>
 
-                {/* Sunlit Crescent Glow Filter */}
-                <filter id="crescentBloom" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="8" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
-
-              {/* Orbital Ring Arc 1 */}
-              <ellipse
-                cx="200"
-                cy="200"
-                rx="190"
-                ry="70"
-                fill="none"
-                stroke="#38BDF8"
-                strokeWidth="1.2"
-                strokeDasharray="4 6"
-                opacity="0.4"
-                transform="rotate(-20 200 200)"
-              />
-
-              {/* Main Planet Sphere */}
-              <circle cx="200" cy="200" r="140" fill="url(#novaPlanetBody)" />
-
-              {/* Swirling Atmospheric Cloud Texture */}
-              <path
-                d="M90 160 Q150 130 230 160 Q300 180 340 160"
-                stroke="#FFFFFF"
-                strokeWidth="6"
-                strokeLinecap="round"
-                opacity="0.3"
-                filter="url(#crescentBloom)"
-              />
-              <path
-                d="M80 200 Q160 170 240 210 Q310 230 330 210"
-                stroke="#BAE6FD"
-                strokeWidth="8"
-                strokeLinecap="round"
-                opacity="0.25"
-              />
-              <path
-                d="M100 240 Q180 220 260 250 Q300 260 320 240"
-                stroke="#38BDF8"
-                strokeWidth="5"
-                strokeLinecap="round"
-                opacity="0.2"
-              />
-
-              {/* Dark Nightside Shadow Overlay (Crescent Shading) */}
-              <path
-                d="M200 60 A 140 140 0 0 1 200 340 A 110 140 0 0 0 200 60 Z"
-                fill="#030712"
-                opacity="0.85"
-              />
-
-              {/* Brilliant Sunlit Limb Glow */}
-              <circle
-                cx="200"
-                cy="200"
-                r="140"
-                fill="url(#atmoGlow)"
-              />
-              <circle
-                cx="200"
-                cy="200"
-                r="140"
-                fill="none"
-                stroke="#E0F2FE"
-                strokeWidth="2.5"
-                opacity="0.75"
-                filter="url(#crescentBloom)"
-              />
-
-              {/* Orbiting Moonlet 1 */}
-              <g transform="translate(80, 110)">
-                <circle cx="0" cy="0" r="18" fill="#1E293B" />
-                <circle cx="0" cy="0" r="18" fill="none" stroke="#64748B" strokeWidth="1" />
-                <circle cx="-5" cy="-5" r="4" fill="#334155" />
-                <path d="M0 -18 A 18 18 0 0 1 0 18 A 12 18 0 0 0 0 -18 Z" fill="#0F172A" opacity="0.8" />
-              </g>
-
-              {/* Orbiting Moonlet 2 (Foreground Crescent) */}
-              <g transform="translate(250, 310)">
-                <circle cx="0" cy="0" r="28" fill="#0F172A" />
-                <circle cx="0" cy="0" r="28" fill="none" stroke="#38BDF8" strokeWidth="1.5" opacity="0.6" />
-                <path d="M0 -28 A 28 28 0 0 1 0 28 A 20 28 0 0 0 0 -28 Z" fill="#050B1A" opacity="0.9" />
-              </g>
-            </svg>
-
-            {/* Target Switcher Mini Pills */}
-            <div className="absolute -bottom-4 flex items-center gap-1.5 p-1 rounded-full bg-[#0B1329] border border-[#1E293B] shadow-lg text-[10px] font-mono">
-              <button
-                onClick={() => setActiveTarget('planet-x')}
-                className={`px-3 py-1 rounded-full transition-all ${
-                  activeTarget === 'planet-x' ? 'bg-[#38BDF8] text-[#050811] font-bold' : 'text-[#A7B4CC] hover:text-[#FFFFFF]'
-                }`}
-              >
-                Planet X
-              </button>
-              <button
-                onClick={() => setActiveTarget('saturn')}
-                className={`px-3 py-1 rounded-full transition-all ${
-                  activeTarget === 'saturn' ? 'bg-[#38BDF8] text-[#050811] font-bold' : 'text-[#A7B4CC] hover:text-[#FFFFFF]'
-                }`}
-              >
-                Saturn
-              </button>
-              <button
-                onClick={() => setActiveTarget('spherex')}
-                className={`px-3 py-1 rounded-full transition-all ${
-                  activeTarget === 'spherex' ? 'bg-[#38BDF8] text-[#050811] font-bold' : 'text-[#A7B4CC] hover:text-[#FFFFFF]'
-                }`}
-              >
-                SPHEREx
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => onNavigate('spherex')}
+                  className="nasa-pill text-[10px] py-1.5 px-4 cursor-pointer hover:shadow-[0_0_20px_rgba(56,189,248,0.6)]"
+                >
+                  ENTER ORBIT
+                </button>
+              </div>
             </div>
           </div>
         </div>

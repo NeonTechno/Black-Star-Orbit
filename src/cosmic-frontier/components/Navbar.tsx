@@ -12,20 +12,37 @@ import {
   Database, 
   Globe, 
   Disc,
-  Radio
+  Radio,
+  Search,
+  Bookmark,
+  BookOpen,
+  FlaskConical
 } from 'lucide-react';
+import { BlackStarLogo } from '../../components/common/BlackStarLogo';
 
 interface NavbarProps {
   currentPage: AppPage;
   onNavigate: (page: AppPage) => void;
+  onOpenCommandPalette?: () => void;
+  onOpenCompare?: () => void;
+  onOpenBookmarks?: () => void;
+  bookmarksCount?: number;
 }
 
-export const Navbar: FC<NavbarProps> = ({ currentPage, onNavigate }) => {
+export const Navbar: FC<NavbarProps> = ({ 
+  currentPage, 
+  onNavigate,
+  onOpenCommandPalette,
+  onOpenCompare,
+  onOpenBookmarks,
+  bookmarksCount = 0
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems: { page: AppPage; label: string; icon: ReactNode }[] = [
     { page: 'home', label: 'Home', icon: <Home className="w-4 h-4" /> },
     { page: 'spherex', label: 'SPHEREx Explorer', icon: <Telescope className="w-4 h-4" /> },
+    { page: 'astrobiology', label: 'Astrobiology Lab', icon: <FlaskConical className="w-4 h-4" /> },
     { page: 'planet-x', label: 'Planet X Lab', icon: <Orbit className="w-4 h-4" /> },
     { page: 'mission-control', label: 'Mission Control', icon: <Radio className="w-4 h-4" /> },
     { page: 'observatory', label: 'Observatory', icon: <Telescope className="w-4 h-4" /> },
@@ -51,18 +68,16 @@ export const Navbar: FC<NavbarProps> = ({ currentPage, onNavigate }) => {
           {/* Logo & Brand */}
           <button 
             onClick={() => handleNavClick('home')}
-            className="flex items-center gap-2.5 text-left group focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 rounded-lg p-1"
+            className="flex items-center gap-2.5 text-left group focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 rounded-lg p-1 cursor-pointer"
             aria-label="Black Star Orbit Home"
           >
-            <div className="relative w-9 h-9 rounded-lg bg-[#0B1630] border border-[#38BDF8]/30 flex items-center justify-center shadow-md group-hover:border-[#38BDF8] transition-all">
-              <Compass className="w-4.5 h-4.5 text-[#38BDF8] group-hover:rotate-45 transition-transform duration-500" />
-            </div>
+            <BlackStarLogo size="sm" />
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-base sm:text-lg tracking-wider text-[#F8FAFC] font-mono group-hover:text-[#38BDF8] transition-colors">
+                <span className="font-bold text-sm sm:text-base tracking-wider text-[#F8FAFC] font-nasa group-hover:text-[#38BDF8] transition-colors">
                   BLACK STAR ORBIT
                 </span>
-                <span className="hidden sm:inline-block text-[9px] uppercase font-semibold tracking-widest px-2 py-0.5 rounded-full bg-[#8B5CF6]/15 text-[#C084FC] border border-[#8B5CF6]/30">
+                <span className="hidden sm:inline-block text-[9px] uppercase font-semibold font-nasa tracking-widest px-2 py-0.5 rounded-full bg-[#8B5CF6]/15 text-[#C084FC] border border-[#8B5CF6]/30">
                   NASA 2026
                 </span>
               </div>
@@ -81,7 +96,7 @@ export const Navbar: FC<NavbarProps> = ({ currentPage, onNavigate }) => {
                 <button
                   key={item.page}
                   onClick={() => handleNavClick(item.page)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs xl:text-sm font-medium transition-all ${
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs xl:text-sm font-medium transition-all cursor-pointer ${
                     isActive
                       ? 'bg-[#0B1630] text-[#38BDF8] border border-[#38BDF8]/40 shadow-xs'
                       : 'text-[#A7B4CC] hover:text-[#F8FAFC] hover:bg-[#0B1630]/60'
@@ -97,8 +112,51 @@ export const Navbar: FC<NavbarProps> = ({ currentPage, onNavigate }) => {
             })}
           </nav>
 
-          {/* Action Badge & Mobile Menu Button */}
+          {/* Action Badge & Controls (Search, Compare, Bookmarks, AI) */}
           <div className="flex items-center gap-2">
+            {/* Quick Command Palette Button (Ctrl+K) */}
+            {onOpenCommandPalette && (
+              <button
+                onClick={onOpenCommandPalette}
+                className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0B1630] hover:bg-[#112248] border border-[#1E293B] hover:border-[#38BDF8]/40 text-xs text-[#94A3B8] hover:text-white transition-all cursor-pointer shadow-xs"
+                title="Search Command Palette (Ctrl+K / Cmd+K)"
+              >
+                <Search className="w-3.5 h-3.5 text-[#38BDF8]" />
+                <span className="hidden xl:inline">Search</span>
+                <kbd className="text-[10px] font-mono bg-[#050B1A] px-1.5 py-0.5 rounded border border-[#1E293B] text-slate-400">
+                  ⌘K
+                </kbd>
+              </button>
+            )}
+
+            {/* Compare Matrix Trigger */}
+            {onOpenCompare && (
+              <button
+                onClick={onOpenCompare}
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#0B1630] hover:bg-[#112248] border border-[#1E293B] hover:border-violet-500/40 text-xs text-[#94A3B8] hover:text-violet-300 transition-all cursor-pointer"
+                title="Open Celestial Comparison Matrix"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-violet-400" />
+                <span className="hidden xl:inline">Compare</span>
+              </button>
+            )}
+
+            {/* Bookmarks Drawer Trigger */}
+            {onOpenBookmarks && (
+              <button
+                onClick={onOpenBookmarks}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#0B1630] hover:bg-[#112248] border border-[#1E293B] hover:border-amber-500/40 text-xs text-slate-300 transition-all cursor-pointer"
+                title="My Research Discovery Collection"
+              >
+                <Bookmark className="w-3.5 h-3.5 text-amber-400" />
+                {bookmarksCount > 0 && (
+                  <span className="text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded-full border border-amber-500/40">
+                    {bookmarksCount}
+                  </span>
+                )}
+              </button>
+            )}
+
             <button
               onClick={() => handleNavClick('ai-guide')}
               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F5C451]/10 text-[#F5C451] hover:bg-[#F5C451]/20 border border-[#F5C451]/30 text-xs font-medium tracking-wide transition-all cursor-pointer"

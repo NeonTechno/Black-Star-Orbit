@@ -433,3 +433,96 @@ export function createNeptuneTexture(): THREE.CanvasTexture {
   return texture;
 }
 
+// 12. Ceres Texture (Queen of Asteroids — cratered grey regolith with bright salt faculae)
+export function createCeresTexture(): THREE.CanvasTexture {
+  const { canvas, ctx } = createOffscreenCanvas(1024, 512);
+
+  // Grey silicate regolith background
+  const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  grad.addColorStop(0, '#7A7E85');
+  grad.addColorStop(0.5, '#92979E');
+  grad.addColorStop(1, '#6F737A');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Craters and impact basins
+  for (let i = 0; i < 180; i++) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const r = Math.random() * 14 + 3;
+    ctx.strokeStyle = 'rgba(50, 52, 58, 0.6)';
+    ctx.lineWidth = 2;
+    ctx.fillStyle = 'rgba(40, 42, 46, 0.4)';
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Central peak
+    if (r > 8) {
+      ctx.fillStyle = 'rgba(180, 185, 190, 0.5)';
+      ctx.beginPath();
+      ctx.arc(x, y, r * 0.25, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // Occator Crater Bright Salt Faculae (Cerealia & Vinalia Faculae — sodium carbonate)
+  const occatorX = canvas.width * 0.42;
+  const occatorY = canvas.height * 0.45;
+  ctx.fillStyle = '#FFFFFF';
+  ctx.shadowColor = '#E0F2FE';
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+  ctx.arc(occatorX, occatorY, 8, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Secondary bright spots
+  for (let i = 0; i < 5; i++) {
+    const sx = occatorX + (Math.random() - 0.5) * 22;
+    const sy = occatorY + (Math.random() - 0.5) * 16;
+    ctx.beginPath();
+    ctx.arc(sx, sy, Math.random() * 3 + 1.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.shadowBlur = 0;
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
+// 13. Planet X / Nine Texture (Cold outer gas-ice giant with indigo-violet bands & methane haze)
+export function createPlanetXTexture(): THREE.CanvasTexture {
+  const { canvas, ctx } = createOffscreenCanvas(1024, 512);
+
+  // Deep indigo/violet atmospheric gradient
+  const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  grad.addColorStop(0, '#1E1B4B');
+  grad.addColorStop(0.25, '#312E81');
+  grad.addColorStop(0.5, '#4338CA');
+  grad.addColorStop(0.75, '#3730A3');
+  grad.addColorStop(1, '#0F172A');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // High-altitude atmospheric methane absorption bands
+  for (let i = 0; i < 28; i++) {
+    const y = (i / 28) * canvas.height;
+    const alpha = Math.sin(i * 0.8) * 0.15 + 0.15;
+    ctx.fillStyle = i % 2 === 0 ? `rgba(167, 139, 250, ${alpha})` : `rgba(56, 189, 248, ${alpha})`;
+    ctx.fillRect(0, y, canvas.width, canvas.height / 28);
+  }
+
+  // Faint cyan storm vortex
+  ctx.fillStyle = 'rgba(114, 229, 247, 0.45)';
+  ctx.beginPath();
+  ctx.ellipse(canvas.width * 0.65, canvas.height * 0.62, 45, 20, 0.08, 0, Math.PI * 2);
+  ctx.fill();
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
+

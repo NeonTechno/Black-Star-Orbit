@@ -15,7 +15,9 @@ import {
   createSaturnTexture,
   createSaturnRingsTexture,
   createUranusTexture,
-  createNeptuneTexture
+  createNeptuneTexture,
+  createCeresTexture,
+  createPlanetXTexture
 } from '../utils/planetTextureGenerator';
 import { 
   Compass, 
@@ -29,11 +31,19 @@ import {
   ExternalLink, 
   Sparkles, 
   Info, 
-  X
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Layers,
+  Zap,
+  BookOpen
 } from 'lucide-react';
+import type { SolarSystemObject } from '../types';
 
 interface Universe3DExplorerProps {
   onNavigate: (page: AppPage) => void;
+  onInspectObject?: (object: SolarSystemObject) => void;
+  onCompareObject?: (object: SolarSystemObject) => void;
 }
 
 // Check if WebGL is available
@@ -111,10 +121,21 @@ const BODIES_CONFIG: Body3DConfig[] = [
     orbitColor: '#EF4444'
   },
   {
+    id: 'ceres',
+    name: '1 Ceres',
+    presentationRadius: 1.1,
+    presentationDistance: 76,
+    realDistanceScaleAU: 2.767 * 20,
+    orbitPeriodSpeed: 0.22, // orbits in 4.60 yr
+    rotationSpeed: 0.04,
+    axialTiltDeg: 4.0,
+    orbitColor: '#A855F7'
+  },
+  {
     id: 'jupiter',
     name: 'Jupiter',
     presentationRadius: 4.8,
-    presentationDistance: 88,
+    presentationDistance: 92,
     realDistanceScaleAU: 5.204 * 20,
     orbitPeriodSpeed: 0.084, // orbits in 11.86 yr
     rotationSpeed: 0.04,
@@ -125,7 +146,7 @@ const BODIES_CONFIG: Body3DConfig[] = [
     id: 'saturn',
     name: 'Saturn',
     presentationRadius: 4.0,
-    presentationDistance: 112,
+    presentationDistance: 116,
     realDistanceScaleAU: 9.582 * 20,
     orbitPeriodSpeed: 0.034, // orbits in 29.45 yr
     rotationSpeed: 0.038,
@@ -137,7 +158,7 @@ const BODIES_CONFIG: Body3DConfig[] = [
     id: 'uranus',
     name: 'Uranus',
     presentationRadius: 2.8,
-    presentationDistance: 136,
+    presentationDistance: 140,
     realDistanceScaleAU: 19.22 * 20,
     orbitPeriodSpeed: 0.012, // orbits in 84 yr
     rotationSpeed: -0.025, // retrograde
@@ -148,16 +169,27 @@ const BODIES_CONFIG: Body3DConfig[] = [
     id: 'neptune',
     name: 'Neptune',
     presentationRadius: 2.7,
-    presentationDistance: 158,
+    presentationDistance: 162,
     realDistanceScaleAU: 30.07 * 20,
     orbitPeriodSpeed: 0.006, // orbits in 164.8 yr
     rotationSpeed: 0.026,
     axialTiltDeg: 28.32,
     orbitColor: '#3B82F6'
+  },
+  {
+    id: 'planet-x',
+    name: 'Planet X (Candidate)',
+    presentationRadius: 3.2,
+    presentationDistance: 188,
+    realDistanceScaleAU: 380 / 10,
+    orbitPeriodSpeed: 0.0008,
+    rotationSpeed: 0.02,
+    axialTiltDeg: 30.0,
+    orbitColor: '#06B6D4'
   }
 ];
 
-export const Universe3DExplorer: FC<Universe3DExplorerProps> = ({ onNavigate }) => {
+export const Universe3DExplorer: FC<Universe3DExplorerProps> = ({ onNavigate, onInspectObject, onCompareObject }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const isReducedMotion = useReducedMotion();
   const isDocumentVisible = useDocumentVisibility();
@@ -324,10 +356,12 @@ export const Universe3DExplorer: FC<Universe3DExplorerProps> = ({ onNavigate }) 
       venus: createVenusTexture,
       earth: createEarthTexture,
       mars: createMarsTexture,
+      ceres: createCeresTexture,
       jupiter: createJupiterTexture,
       saturn: createSaturnTexture,
       uranus: createUranusTexture,
-      neptune: createNeptuneTexture
+      neptune: createNeptuneTexture,
+      'planet-x': createPlanetXTexture
     };
 
     let moonMeshRef: THREE.Mesh | undefined;
@@ -828,40 +862,84 @@ export const Universe3DExplorer: FC<Universe3DExplorerProps> = ({ onNavigate }) 
           </div>
         )}
 
-        {/* 4. BOTTOM FLOATING CONTROLS DOCK */}
-        <div className="absolute bottom-6 left-4 right-4 sm:left-6 sm:right-auto z-20 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          {/* Quick Select Planet Bar */}
-          <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-[#050B1A]/90 border border-[#1E293B] backdrop-blur-md overflow-x-auto scrollbar-none shadow-2xl">
+        {/* 4. BOTTOM FLOATING CONTROLS DOCK (Inspired by super-universe.app / Ceres explorer) */}
+        <div className="absolute bottom-6 left-4 right-4 sm:left-6 sm:right-6 z-20 flex flex-col md:flex-row items-center justify-between gap-3 pointer-events-none">
+          {/* Quick Select Planet Bar with Prev/Next Navigation */}
+          <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-[#050B1A]/95 border border-[#1E293B] backdrop-blur-xl overflow-x-auto scrollbar-none shadow-2xl pointer-events-auto max-w-full">
+            {/* Prev Button */}
+            <button
+              onClick={() => {
+                const allNavigableIds = ['sun', ...BODIES_CONFIG.map(b => b.id)];
+                const idx = selectedObjectId ? allNavigableIds.indexOf(selectedObjectId) : 0;
+                const prevIdx = (idx - 1 + allNavigableIds.length) % allNavigableIds.length;
+                handleSelectObject(allNavigableIds[prevIdx]);
+              }}
+              className="p-1.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#1E293B] transition-colors shrink-0"
+              title="Previous Celestial Body"
+              aria-label="Previous Celestial Body"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
             <button
               onClick={() => handleSelectObject('sun')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 ${
                 selectedObjectId === 'sun'
-                  ? 'bg-[#F59E0B] text-[#050B1A] font-bold shadow-md'
+                  ? 'bg-amber-500 text-slate-950 font-bold shadow-lg shadow-amber-500/30'
                   : 'text-[#94A3B8] hover:text-white hover:bg-[#1E293B]'
               }`}
             >
-              Sun
+              <span className="w-2 h-2 rounded-full bg-amber-400" />
+              <span>Sun</span>
             </button>
+
             {BODIES_CONFIG.map(body => {
               const isSelected = selectedObjectId === body.id;
+              const isCeres = body.id === 'ceres';
+              const isPlanetX = body.id === 'planet-x';
+
               return (
                 <button
                   key={body.id}
                   onClick={() => handleSelectObject(body.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 ${
                     isSelected
-                      ? 'bg-[#38BDF8] text-[#050B1A] font-bold shadow-md'
+                      ? isCeres
+                        ? 'bg-purple-600 text-white font-bold shadow-lg shadow-purple-600/30 ring-1 ring-purple-300'
+                        : isPlanetX
+                        ? 'bg-cyan-500 text-slate-950 font-bold shadow-lg shadow-cyan-500/30 ring-1 ring-cyan-300'
+                        : 'bg-[#38BDF8] text-[#050B1A] font-bold shadow-md'
+                      : isCeres
+                      ? 'text-purple-300 hover:text-white hover:bg-purple-950/40 border border-purple-800/40'
+                      : isPlanetX
+                      ? 'text-cyan-300 hover:text-white hover:bg-cyan-950/40 border border-cyan-800/40 animate-pulse'
                       : 'text-[#94A3B8] hover:text-white hover:bg-[#1E293B]'
                   }`}
                 >
-                  {body.name}
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: body.orbitColor }} />
+                  <span>{body.name}</span>
                 </button>
               );
             })}
+
+            {/* Next Button */}
+            <button
+              onClick={() => {
+                const allNavigableIds = ['sun', ...BODIES_CONFIG.map(b => b.id)];
+                const idx = selectedObjectId ? allNavigableIds.indexOf(selectedObjectId) : 0;
+                const nextIdx = (idx + 1) % allNavigableIds.length;
+                handleSelectObject(allNavigableIds[nextIdx]);
+              }}
+              className="p-1.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#1E293B] transition-colors shrink-0"
+              title="Next Celestial Body"
+              aria-label="Next Celestial Body"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
 
-          {/* Quick Actions (Pause/Play, Orbits, Labels) */}
-          <div className="flex items-center justify-between sm:justify-start gap-2 p-1.5 rounded-2xl bg-[#050B1A]/90 border border-[#1E293B] backdrop-blur-md shadow-2xl">
+          {/* Quick Actions (Pause/Play, Orbits, Labels, Warp Speed) */}
+          <div className="flex items-center justify-between sm:justify-start gap-2 p-1.5 rounded-2xl bg-[#050B1A]/95 border border-[#1E293B] backdrop-blur-xl shadow-2xl pointer-events-auto">
             {/* Play/Pause */}
             <button
               onClick={() => setIsPaused(!isPaused)}
@@ -896,17 +974,22 @@ export const Universe3DExplorer: FC<Universe3DExplorerProps> = ({ onNavigate }) 
               {showLabels ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
             </button>
 
-            {/* Speed multipliers */}
+            {/* Speed multipliers including WARP */}
             <div className="flex items-center pl-1 border-l border-[#1E293B] text-[10px] font-mono">
-              {[1, 2, 5].map(s => (
+              {[1, 2, 5, 25].map(s => (
                 <button
                   key={s}
                   onClick={() => setSimSpeed(s)}
                   className={`px-2 py-1 rounded-md transition-colors ${
-                    simSpeed === s ? 'text-[#38BDF8] font-bold bg-[#38BDF8]/10' : 'text-[#64748B] hover:text-white'
+                    simSpeed === s
+                      ? s === 25
+                        ? 'text-cyan-300 font-bold bg-cyan-500/20 shadow-xs'
+                        : 'text-[#38BDF8] font-bold bg-[#38BDF8]/10'
+                      : 'text-[#64748B] hover:text-white'
                   }`}
+                  title={s === 25 ? 'Warp Speed (25x Time Acceleration)' : `${s}x Speed`}
                 >
-                  {s}x
+                  {s === 25 ? 'WARP' : `${s}x`}
                 </button>
               ))}
             </div>
@@ -1028,6 +1111,24 @@ export const Universe3DExplorer: FC<Universe3DExplorerProps> = ({ onNavigate }) 
               </div>
             )}
 
+            {/* Quick Action Matrix (Inspect Full Dossier & Compare) */}
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <button
+                onClick={() => onInspectObject && onInspectObject(activeObjectData)}
+                className="py-2 px-3 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/40 text-cyan-300 font-mono text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>Full Dossier</span>
+              </button>
+              <button
+                onClick={() => onCompareObject && onCompareObject(activeObjectData)}
+                className="py-2 px-3 rounded-xl bg-violet-500/15 hover:bg-violet-500/25 border border-violet-400/40 text-violet-300 font-mono text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
+              >
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>Compare Matrix</span>
+              </button>
+            </div>
+
             {/* Provenance Link */}
             <div className="pt-2 border-t border-[#1E293B] flex items-center justify-between text-xs">
               <a
@@ -1043,7 +1144,7 @@ export const Universe3DExplorer: FC<Universe3DExplorerProps> = ({ onNavigate }) 
               {/* Ask AI Guide Button */}
               <button
                 onClick={() => onNavigate('ai-guide')}
-                className="text-[#38BDF8] hover:text-[#7DD3FC] font-semibold inline-flex items-center gap-1 text-[11px]"
+                className="text-[#38BDF8] hover:text-[#7DD3FC] font-semibold inline-flex items-center gap-1 text-[11px] cursor-pointer"
               >
                 <Sparkles className="w-3 h-3" />
                 <span>Ask AI Guide</span>

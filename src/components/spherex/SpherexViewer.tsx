@@ -20,6 +20,17 @@ import { ComparisonView } from './ComparisonView.tsx';
 import { TimelapseViewer } from './TimelapseViewer.tsx';
 import { DifferenceOverlay } from './DifferenceOverlay.tsx';
 import { SpectralPlot } from './SpectralPlot.tsx';
+import { InfraredSignalAnalysisChart } from './InfraredSignalAnalysisChart.tsx';
+import { SpectralSignalVisualizer } from './SpectralSignalVisualizer.tsx';
+import {
+  computeSpherexSurveyTiles,
+  findTileAtCoord,
+  SpherexSurveyTile,
+} from '../../science/spherexSurveyTiles.ts';
+import {
+  CoordinateGridOverlay,
+  SurveyTileControlPanel,
+} from './CoordinateGridOverlay.tsx';
 import {
   Telescope,
   ZoomIn,
@@ -37,7 +48,15 @@ import {
   RefreshCw,
   HelpCircle,
   Eye,
+  Download,
+  ChevronDown,
+  Check,
+  Waves,
+  Grid3X3,
+  Target,
 } from 'lucide-react';
+import { exportHighResAstronomicalMap, exportGenericCanvasPNG } from '../../science/spherexExport.ts';
+import { DownloadViewModal } from './DownloadViewModal.tsx';
 
 interface SpherexViewerProps {
   observations: SpherexObservation[];
@@ -57,13 +76,18 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
   // Active target & frame state
   const [selectedObsId, setSelectedObsId] = useState<string>(observations[0]?.id || '');
   const [selectedBandId, setSelectedBandId] = useState<number>(SPHEREX_BANDS[54]?.bandId || 55); // 3.05 µm H2O ice band default
-  const [activeTab, setActiveTab] = useState<'single' | 'compare' | 'timelapse' | 'difference' | 'sed'>('single');
+  const [activeTab, setActiveTab] = useState<'single' | 'signal-analysis' | 'compare' | 'timelapse' | 'difference' | 'sed'>('single');
 
   // Visualization parameters
   const [stretch, setStretch] = useState<StretchMode>('asinh');
   const [cmap, setCmap] = useState<ColorMap>('inferno');
   const [showGrid, setShowGrid] = useState<boolean>(true);
   const [showCrosshair, setShowCrosshair] = useState<boolean>(true);
+  const [showTileGrid, setShowTileGrid] = useState<boolean>(true);
+  const [showTileLabels, setShowTileLabels] = useState<boolean>(true);
+  const [highlightFilter, setHighlightFilter] = useState<'all' | 'targets' | 'protostars' | 'calibration'>('all');
+  const [selectedTile, setSelectedTile] = useState<SpherexSurveyTile | null>(null);
+  const [hoveredTile, setHoveredTile] = useState<SpherexSurveyTile | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [panOffset, setPanOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState<boolean>(false);
@@ -90,6 +114,46 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
   const activeObs = observations.find((o) => o.id === selectedObsId) || observations[0];
   const activeFrame = activeObs?.epochs[0];
   const compareFrame = activeObs?.epochs[1] || activeObs?.epochs[0];
+
+  // Compute 16 SPHEREx survey tiles across observation footprint
+  const surveyTiles = React.useMemo(() => {
+    if (!activeObs || !activeFrame) return [];
+    return computeSpherexSurveyTiles(activeObs, activeFrame);
+  }, [activeObs, activeFrame]);
+
+  // Set default selected tile to primary target tile or center tile
+  useEffect(() => {
+    if (surveyTiles.length > 0) {
+      const targetTile =
+        surveyTiles.find((t) => t.status === 'TARGET_PRIMARY') ||
+        surveyTiles.find((t) => t.isTargetInterest) ||
+        surveyTiles[5] ||
+        surveyTiles[0];
+      setSelectedTile((prev) => {
+        if (prev && surveyTiles.some((t) => t.tileId === prev.tileId)) {
+          return surveyTiles.find((t) => t.tileId === prev.tileId) || targetTile;
+        }
+        return targetTile;
+      });
+    }
+  }, [surveyTiles]);
+
+  const handleSelectTile = (tile: SpherexSurveyTile) => {
+    setSelectedTile(tile);
+    setSelectedCoord(tile.centerNorm);
+  };
+
+  const handleCenterOnTile = (tile: SpherexSurveyTile) => {
+    setSelectedTile(tile);
+    setSelectedCoord(tile.centerNorm);
+    if (zoomLevel > 1) {
+      const dispW = 520;
+      const dispH = 520;
+      const panX = (0.5 - tile.centerNorm.x) * dispW * (zoomLevel - 1);
+      const panY = (0.5 - tile.centerNorm.y) * dispH * (zoomLevel - 1);
+      setPanOffset({ x: panX, y: panY });
+    }
+  };
 
   // Sync selectedObsId if observations update
   useEffect(() => {
@@ -172,11 +236,97 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
     const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
     setSelectedCoord({ x, y });
+
+    const clickedTile = findTileAtCoord(surveyTiles, x, y);
+    if (clickedTile) {
+      setSelectedTile(clickedTile);
+    }
   };
 
   const handleResetView = () => {
     setZoomLevel(1);
     setPanOffset({ x: 0, y: 0 });
+  };
+
+  // Export & Download View state
+  const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
+  const [isQuickExporting, setIsQuickExporting] = useState<boolean>(false);
+  const [downloadSuccessToast, setDownloadSuccessToast] = useState<string | null>(null);
+
+  const activeBand =
+    SPHEREX_BANDS.find((b) => b.bandId === selectedBandId) || SPHEREX_BANDS[54] || SPHEREX_BANDS[0];
+
+  // Direct high-resolution download of currently rendered astronomical map
+  const handleDirectDownload = async () => {
+    if (!activeObs || !activeFrame) return;
+    setIsQuickExporting(true);
+    try {
+      const filename = await exportHighResAstronomicalMap(
+        activeFrame,
+        activeObs,
+        activeBand,
+        {
+          resolution: 2048,
+          stretch,
+          cmap,
+          showGrid,
+          showCrosshair,
+          includeTileGrid: showTileGrid,
+          highlightedTileCodes: surveyTiles.filter((t) => t.isTargetInterest).map((t) => t.code),
+          selectedCoord,
+          includeMetadataBanner: true,
+          includeColorbar: true,
+          includeCompass: true,
+          cropToViewport: zoomLevel > 1,
+          zoomLevel,
+          panOffset,
+          canvasDisplayWidth: 520,
+          canvasDisplayHeight: 520,
+        }
+      );
+      setDownloadSuccessToast(filename);
+      setTimeout(() => setDownloadSuccessToast(null), 4000);
+    } catch (err) {
+      console.error('Download View error:', err);
+    } finally {
+      setIsQuickExporting(false);
+    }
+  };
+
+  // Export generic on-screen view if on compare, difference, or timelapse tab
+  const handleExportCurrentTab = async () => {
+    if (activeTab === 'single') {
+      await handleDirectDownload();
+      return;
+    }
+
+    setIsQuickExporting(true);
+    try {
+      const activeContainer = document.querySelector('main');
+      const canvas = activeContainer?.querySelector('canvas') as HTMLCanvasElement | null;
+      if (canvas) {
+        const cleanTarget = activeObs.id.replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `SPHEREx_${cleanTarget}_${activeTab}_view_${Date.now()}.png`;
+        const tabTitle =
+          activeTab === 'difference'
+            ? `${activeObs.targetName} — Image Difference Residual`
+            : activeTab === 'compare'
+            ? `${activeObs.targetName} — Side-by-Side Epoch Comparison`
+            : activeTab === 'timelapse'
+            ? `${activeObs.targetName} — Multi-Epoch Blink Frame`
+            : `${activeObs.targetName} — Spectral View`;
+
+        await exportGenericCanvasPNG(canvas, filename, tabTitle);
+        setDownloadSuccessToast(filename);
+        setTimeout(() => setDownloadSuccessToast(null), 4000);
+      } else {
+        await handleDirectDownload();
+      }
+    } catch (err) {
+      console.error('Failed to export current tab view:', err);
+    } finally {
+      setIsQuickExporting(false);
+    }
   };
 
   // Loading State
@@ -276,6 +426,18 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
           </button>
 
           <button
+            onClick={() => setActiveTab('signal-analysis')}
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition ${
+              activeTab === 'signal-analysis'
+                ? 'bg-gradient-to-r from-cyan-600 to-indigo-600 text-white shadow-sm font-semibold'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+            }`}
+          >
+            <Waves className="h-3.5 w-3.5" />
+            <span>Signal Analysis</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('compare')}
             className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition ${
               activeTab === 'compare'
@@ -321,6 +483,22 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
           >
             <Activity className="h-3.5 w-3.5" />
             <span>SED Spectrum</span>
+          </button>
+
+          <div className="h-4 w-px bg-slate-800 mx-1 hidden sm:block" />
+
+          <button
+            onClick={handleExportCurrentTab}
+            disabled={isQuickExporting}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600/30 to-indigo-600/30 hover:from-cyan-600/50 hover:to-indigo-600/50 text-cyan-200 border border-cyan-500/40 transition shadow-sm font-semibold"
+            title="Download View as High-Resolution PNG"
+          >
+            {isQuickExporting ? (
+              <div className="h-3.5 w-3.5 border-2 border-cyan-300/30 border-t-cyan-300 rounded-full animate-spin" />
+            ) : (
+              <Download className="h-3.5 w-3.5 text-cyan-300" />
+            )}
+            <span>Download View</span>
           </button>
         </div>
       </div>
@@ -384,6 +562,19 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
                   </button>
 
                   <button
+                    onClick={() => setShowTileGrid(!showTileGrid)}
+                    className={`p-1.5 rounded transition flex items-center space-x-1 ${
+                      showTileGrid
+                        ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-500/50'
+                        : 'bg-slate-800 text-slate-400 hover:text-white'
+                    }`}
+                    title="Toggle SPHEREx Survey Tile Coordinate Grid Overlay"
+                  >
+                    <Grid3X3 className="h-3.5 w-3.5" />
+                    <span className="hidden xl:inline text-[10px] font-mono font-semibold">Tiles</span>
+                  </button>
+
+                  <button
                     onClick={() => setShowCrosshair(!showCrosshair)}
                     className={`p-1.5 rounded transition ${
                       showCrosshair ? 'bg-cyan-500/20 text-cyan-300' : 'bg-slate-800 text-slate-400'
@@ -416,6 +607,32 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
                   >
                     <Maximize2 className="h-3.5 w-3.5" />
                   </button>
+
+                  {/* Download View Button with Quality Options Dropdown */}
+                  <div className="flex items-center pl-1 border-l border-slate-800 space-x-1">
+                    <button
+                      onClick={handleDirectDownload}
+                      disabled={isQuickExporting}
+                      className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-mono text-[11px] font-semibold transition shadow-md shadow-cyan-950/40 disabled:opacity-50"
+                      title="Download View as High-Resolution PNG (2048 × 2048 FITS Scale)"
+                    >
+                      {isQuickExporting ? (
+                        <div className="h-3 w-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      ) : (
+                        <Download className="h-3.5 w-3.5" />
+                      )}
+                      <span>{isQuickExporting ? 'Exporting...' : 'Download View'}</span>
+                    </button>
+
+                    <button
+                      onClick={() => setIsExportModalOpen(true)}
+                      className="p-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition"
+                      title="Download Options (Resolution 1K/2K/4K, Overlays, Metadata)"
+                      aria-label="Download View options"
+                    >
+                      <ChevronDown className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -435,6 +652,7 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
                     transition: isPanning ? 'none' : 'transform 0.1s ease-out',
                     width: '100%',
                     height: '100%',
+                    position: 'relative',
                   }}
                 >
                   <canvas
@@ -443,16 +661,30 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
                     height={520}
                     className="w-full h-full object-contain"
                   />
+
+                  {/* SPHEREx Coordinate Selection Grid Overlay on the main astronomical map */}
+                  {showTileGrid && (
+                    <CoordinateGridOverlay
+                      tiles={surveyTiles}
+                      selectedTile={selectedTile}
+                      onSelectTile={handleSelectTile}
+                      hoveredTile={hoveredTile}
+                      onHoverTile={setHoveredTile}
+                      showTileLabels={showTileLabels}
+                      highlightFilter={highlightFilter}
+                      onCenterOnTile={handleCenterOnTile}
+                    />
+                  )}
                 </div>
 
                 {/* Persistent Simulated Benchmark Watermark */}
-                <div className="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-md px-2 py-0.5 rounded border border-slate-800 text-[10px] font-mono text-cyan-300">
+                <div className="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-md px-2 py-0.5 rounded border border-slate-800 text-[10px] font-mono text-cyan-300 pointer-events-none z-20">
                   SPHEREx LVF Passband: {SPHEREX_BANDS.find((b) => b.bandId === selectedBandId)?.wavelengthMicrons.toFixed(2)} µm
                 </div>
 
                 {/* Telemetry coordinate readout overlay */}
                 {cursorInfo && (
-                  <div className="absolute bottom-2 left-2 bg-slate-950/85 backdrop-blur-md p-2 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-300 space-y-0.5 pointer-events-none">
+                  <div className="absolute bottom-2 left-2 bg-slate-950/85 backdrop-blur-md p-2 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-300 space-y-0.5 pointer-events-none z-20">
                     <div className="flex items-center space-x-2">
                       <span className="text-cyan-400 font-bold">RA:</span> {cursorInfo.ra}°
                       <span className="text-cyan-400 font-bold ml-2">Dec:</span> {cursorInfo.dec}°
@@ -465,6 +697,22 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
                   </div>
                 )}
               </div>
+
+              {/* SPHEREx Survey Tile Coordinate Selection & Highlight Control Panel */}
+              {showTileGrid && (
+                <div className="mt-3">
+                  <SurveyTileControlPanel
+                    tiles={surveyTiles}
+                    selectedTile={selectedTile}
+                    onSelectTile={handleSelectTile}
+                    showTileGrid={showTileGrid}
+                    onToggleTileGrid={() => setShowTileGrid(!showTileGrid)}
+                    highlightFilter={highlightFilter}
+                    onSetHighlightFilter={setHighlightFilter}
+                    onCenterOnTile={handleCenterOnTile}
+                  />
+                </div>
+              )}
             </div>
 
             {/* 102 Spectral Bands Selector */}
@@ -503,6 +751,99 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
                 })
               }
             />
+          </div>
+
+          {/* Full-Width Spectral Signal Visualizer (Recharts) */}
+          <div className="lg:col-span-12 mt-2 space-y-4">
+            <SpectralSignalVisualizer
+              targetName={activeObs.targetName}
+              category={activeObs.category}
+              spectralPoints={activeObs.fullSedCurve?.map((p) => ({
+                wavelength: p.wavelength,
+                fluxMJySr: p.fluxMJySr,
+                uncertainty: p.uncertainty,
+                modelFit: p.modelFit,
+              }))}
+              activeWavelength={SPHEREX_BANDS.find((b) => b.bandId === selectedBandId)?.wavelengthMicrons || 3.05}
+              onSelectWavelength={(w) => {
+                const closest = SPHEREX_BANDS.reduce((prev, curr) => {
+                  return Math.abs(curr.wavelengthMicrons - w) < Math.abs(prev.wavelengthMicrons - w) ? curr : prev;
+                }, SPHEREX_BANDS[0]);
+                if (closest) {
+                  setSelectedBandId(closest.bandId);
+                }
+              }}
+              onExplainWithAi={onExplainWithAi}
+            />
+
+            <InfraredSignalAnalysisChart
+              observation={activeObs}
+              onExplainWithAi={onExplainWithAi}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Dedicated Infrared Signal Analysis Mode */}
+      {activeTab === 'signal-analysis' && (
+        <div className="space-y-4">
+          <SpectralSignalVisualizer
+            targetName={activeObs.targetName}
+            category={activeObs.category}
+            spectralPoints={activeObs.fullSedCurve?.map((p) => ({
+              wavelength: p.wavelength,
+              fluxMJySr: p.fluxMJySr,
+              uncertainty: p.uncertainty,
+              modelFit: p.modelFit,
+            }))}
+            activeWavelength={SPHEREX_BANDS.find((b) => b.bandId === selectedBandId)?.wavelengthMicrons || 3.05}
+            onSelectWavelength={(w) => {
+              const closest = SPHEREX_BANDS.reduce((prev, curr) => {
+                return Math.abs(curr.wavelengthMicrons - w) < Math.abs(prev.wavelengthMicrons - w) ? curr : prev;
+              }, SPHEREX_BANDS[0]);
+              if (closest) {
+                setSelectedBandId(closest.bandId);
+              }
+            }}
+            onExplainWithAi={onExplainWithAi}
+          />
+
+          <InfraredSignalAnalysisChart
+            observation={activeObs}
+            onExplainWithAi={onExplainWithAi}
+          />
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div className="lg:col-span-6">
+              <MetadataPanel
+                observation={activeObs}
+                onExplainWithAi={() =>
+                  onExplainWithAi('spherex_fits', {
+                    targetName: activeObs.targetName,
+                    category: activeObs.category,
+                    raDeg: activeObs.raDeg,
+                    decDeg: activeObs.decDeg,
+                    fitsHeader: activeObs.fitsHeader,
+                    dataSourceStatus: activeObs.dataSourceStatus,
+                    dataSourceLabel: activeObs.dataSourceLabel,
+                  })
+                }
+              />
+            </div>
+            <div className="lg:col-span-6">
+              <SpectralPlot
+                observation={activeObs}
+                onExplainSpectrum={() =>
+                  onExplainWithAi('spherex_spectrum', {
+                    targetName: activeObs.targetName,
+                    category: activeObs.category,
+                    sedCurve: activeObs.fullSedCurve,
+                    iceAbsorptionDiagnostics: ['H2O Ice 3.05µm', 'CO2 Ice 4.27µm', 'CO Ice 4.67µm'],
+                    dataSourceStatus: activeObs.dataSourceStatus,
+                  })
+                }
+              />
+            </div>
           </div>
         </div>
       )}
@@ -561,6 +902,27 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
       {/* Full SED Spectral Mode */}
       {activeTab === 'sed' && (
         <div className="space-y-4">
+          <SpectralSignalVisualizer
+            targetName={activeObs.targetName}
+            category={activeObs.category}
+            spectralPoints={activeObs.fullSedCurve?.map((p) => ({
+              wavelength: p.wavelength,
+              fluxMJySr: p.fluxMJySr,
+              uncertainty: p.uncertainty,
+              modelFit: p.modelFit,
+            }))}
+            activeWavelength={SPHEREX_BANDS.find((b) => b.bandId === selectedBandId)?.wavelengthMicrons || 3.05}
+            onSelectWavelength={(w) => {
+              const closest = SPHEREX_BANDS.reduce((prev, curr) => {
+                return Math.abs(curr.wavelengthMicrons - w) < Math.abs(prev.wavelengthMicrons - w) ? curr : prev;
+              }, SPHEREX_BANDS[0]);
+              if (closest) {
+                setSelectedBandId(closest.bandId);
+              }
+            }}
+            onExplainWithAi={onExplainWithAi}
+          />
+
           <SpectralPlot
             observation={activeObs}
             onExplainSpectrum={() =>
@@ -571,6 +933,40 @@ export const SpherexViewer: React.FC<SpherexViewerProps> = ({
               })
             }
           />
+        </div>
+      )}
+
+      {/* High-Resolution Astronomical Map Export Modal */}
+      <DownloadViewModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+        observation={activeObs}
+        band={activeBand}
+        stretch={stretch}
+        cmap={cmap}
+        showGrid={showGrid}
+        showCrosshair={showCrosshair}
+        selectedCoord={selectedCoord}
+        zoomLevel={zoomLevel}
+        panOffset={panOffset}
+        onNotification={(msg) => {
+          setDownloadSuccessToast(msg);
+          setTimeout(() => setDownloadSuccessToast(null), 4000);
+        }}
+      />
+
+      {/* Download Success Floating Toast Notification */}
+      {downloadSuccessToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900/95 backdrop-blur-md border border-cyan-500/50 text-cyan-200 px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 text-xs font-mono animate-fade-in">
+          <div className="p-1.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-700/60 shrink-0">
+            <Check className="h-4 w-4" />
+          </div>
+          <div>
+            <span className="font-bold block text-white">Export Complete</span>
+            <span className="text-[11px] text-slate-400 max-w-xs truncate block">
+              {downloadSuccessToast}
+            </span>
+          </div>
         </div>
       )}
     </div>

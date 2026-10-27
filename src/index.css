@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@theme {
+  --font-nasa: 'Orbitron', 'Audiowide', 'Michroma', sans-serif;
+  --font-display: 'Orbitron', 'Audiowide', 'Michroma', sans-serif;
+  --font-heading: 'Orbitron', 'Space Grotesk', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
 @layer base {
   :root {
     color-scheme: dark;
@@ -9,19 +17,36 @@
     --orbit-violet: #9b8cff;
     --orbit-border: rgba(148, 163, 184, 0.16);
   }
-  html { scroll-behavior: smooth; background: #050711; }
+  html {
+    scroll-behavior: smooth;
+    background: #050711;
+    text-rendering: optimizeLegibility;
+  }
   body {
     margin: 0;
     background: #050711;
     color: #f3f4f6;
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.012em;
+  }
+  h1, h2, h3, .font-display, .font-nasa {
+    font-family: 'Orbitron', 'Audiowide', 'Michroma', sans-serif;
+    letter-spacing: 0.04em;
+  }
+  h4, h5, h6, .font-heading {
+    font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+    letter-spacing: 0.02em;
   }
   button, a, select { -webkit-tap-highlight-color: transparent; }
   button { touch-action: manipulation; }
   ::selection { background: rgba(34, 211, 238, .28); color: #ecfeff; }
-  code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-feature-settings: "tnum" 1, "zero" 1;
+  }
 }
 
 ::-webkit-scrollbar { width: 7px; height: 7px; }
@@ -40,10 +65,131 @@
 .cosmic-radial-glow { background: radial-gradient(circle at 50% 20%, rgba(59,130,246,.1), rgba(147,51,234,.035) 42%, transparent 72%); }
 .spectral-glow { box-shadow: 0 0 30px -7px rgba(56,189,248,.3); }
 
+/* Electric Lightning & Futuristic Energy System */
+@keyframes electricBorderRun {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes lightningArcPulse {
+  0%, 100% {
+    opacity: 0.35;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.4)) drop-shadow(0 0 16px rgba(139, 92, 246, 0.2));
+  }
+  45% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 12px rgba(114, 229, 247, 0.9)) drop-shadow(0 0 28px rgba(56, 189, 248, 0.6));
+  }
+  50% {
+    opacity: 0.6;
+  }
+  55% {
+    opacity: 1;
+    filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 32px rgba(114, 229, 247, 0.8));
+  }
+}
+
+@keyframes energySweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes electricSparkGlow {
+  0%, 100% { opacity: 0.2; transform: scale(0.95); }
+  50% { opacity: 0.85; transform: scale(1.05); }
+}
+
+/* Electric Glass Card with interactive energy beam border */
+.electric-glass {
+  position: relative;
+  background: rgba(11, 22, 48, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.electric-glass:hover {
+  border-color: rgba(114, 229, 247, 0.65);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 25px -4px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.electric-border-active {
+  position: relative;
+}
+.electric-border-active::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(90deg, #38BDF8, #8B5CF6, #00F0FF, #38BDF8);
+  background-size: 300% 300%;
+  animation: electricBorderRun 4s linear infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+/* Energy Reactive Button */
+.energy-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+.energy-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: skewX(-20deg);
+  transition: 0.5s;
+}
+.energy-btn:hover::after {
+  left: 150%;
+}
+
+/* Holographic HUD Elements */
+.hud-panel {
+  background: linear-gradient(135deg, rgba(14, 27, 56, 0.8) 0%, rgba(7, 13, 29, 0.9) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(56, 189, 248, 0.03);
+}
+
+.hud-reticle {
+  position: relative;
+}
+.hud-reticle::before, .hud-reticle::after {
+  content: '';
+  position: absolute;
+  width: 8px; height: 8px;
+  border-color: #38BDF8;
+  pointer-events: none;
+}
+.hud-reticle::before {
+  top: -2px; left: -2px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.hud-reticle::after {
+  bottom: -2px; right: -2px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+
 /* Black Star Orbit mission identity */
 .mission-hero {
   isolation: isolate;
-  background: radial-gradient(ellipse at 72% 42%, rgba(28, 65, 122, .22), transparent 42%), linear-gradient(115deg, #070b17 0%, #090d1d 54%, #0c1024 100%);
+  background-image: linear-gradient(115deg, rgba(7, 11, 23, 0.88) 0%, rgba(9, 13, 29, 0.78) 54%, rgba(12, 16, 36, 0.85) 100%), url('/assets/cosmic-dust-universe.jpg');
+  background-size: cover;
+  background-position: center;
 }
 .mission-hero__stars {
   position: absolute; inset: 0; pointer-events: none; opacity: .45;
@@ -58,12 +204,37 @@
 .mission-kicker,.mission-tag { display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid rgba(125,211,252,.2);border-radius:999px;background:rgba(8,20,39,.58);color:#a5eaf8;font:500 10px/1.2 'JetBrains Mono',monospace;letter-spacing:.13em; }
 .mission-tag { color:#a5b4fc;border-color:rgba(165,180,252,.16);letter-spacing:.08em; }
 .mission-kicker__dot,.status-dot { display:inline-block;width:6px;height:6px;border-radius:50%;background:#5eead4;box-shadow:0 0 12px rgba(94,234,212,.7); }
-.mission-title { font-size:clamp(2.6rem,6vw,5.15rem);font-weight:600;letter-spacing:-.065em;line-height:.99;color:#f8fafc; }
+.mission-title { font-family: 'Orbitron', 'Audiowide', 'Michroma', sans-serif; font-size:clamp(2.4rem,5.5vw,4.8rem);font-weight:800;letter-spacing:0.04em;line-height:1.02;color:#f8fafc;text-transform:uppercase; }
 .mission-title span { color:transparent;background:linear-gradient(105deg,#a5f3fc 0%,#67e8f9 35%,#a5b4fc 78%,#c4b5fd 100%);background-clip:text;-webkit-background-clip:text; }
+.nasa-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 24px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at center, rgba(34, 211, 238, 0.22) 0%, rgba(6, 17, 36, 0.75) 100%);
+  border: 1.5px solid rgba(56, 189, 248, 0.65);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.45), inset 0 0 12px rgba(56, 189, 248, 0.25);
+  color: #E0F2FE;
+  font-family: 'Orbitron', 'Audiowide', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(12px);
+}
+.nasa-pill:hover {
+  border-color: rgba(125, 211, 252, 0.95);
+  box-shadow: 0 0 26px rgba(56, 189, 248, 0.7), inset 0 0 16px rgba(56, 189, 248, 0.4);
+  transform: translateY(-1px);
+  color: #FFFFFF;
+}
 .mission-primary-button,.mission-secondary-button { display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 16px;border-radius:12px;font-size:13px;font-weight:600;transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease; }
-.mission-primary-button { color:#06111d;background:linear-gradient(110deg,#a5f3fc,#67e8f9 55%,#a5b4fc);box-shadow:0 8px 26px rgba(34,211,238,.13); }
+.mission-primary-button { color:#06111d;background:linear-gradient(110deg,#a5f3fc,#67e8f9 55%,#a5b4fc);box-shadow:0 8px 26px rgba(34,211,238,.13);font-family:'Orbitron','Audiowide',sans-serif;letter-spacing:0.04em; }
 .mission-primary-button:hover { transform:translateY(-2px);box-shadow:0 12px 32px rgba(34,211,238,.22); }
-.mission-secondary-button { color:#e2e8f0;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.23); }
+.mission-secondary-button { color:#e2e8f0;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.23);font-family:'Orbitron','Audiowide',sans-serif;letter-spacing:0.04em; }
 .mission-secondary-button:hover { transform:translateY(-2px);background:rgba(255,255,255,.07);border-color:rgba(165,180,252,.48); }
 .mission-console { overflow:hidden;border:1px solid rgba(148,163,184,.19);border-radius:18px;background:rgba(7,12,26,.76);box-shadow:0 22px 70px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.035);backdrop-filter:blur(18px); }
 .mission-stat { min-width:0;padding:17px 16px;background:rgba(13,19,38,.8); }
@@ -120,13 +291,14 @@
 body {
   background-color: #050B1A;
   color: #F8FAFC;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  letter-spacing: -0.012em;
 }
 
 /* Tabular numbers for non-jittering telemetry & coordinates */

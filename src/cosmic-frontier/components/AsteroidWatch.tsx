@@ -583,14 +583,18 @@ export const AsteroidWatch: FC<AsteroidWatchProps> = ({ onNavigate }) => {
 
         {/* Custom Date Range Inputs */}
         {timeframe === 'custom' && (
-          <div className="pt-3 border-t border-[#1E293B] flex flex-wrap items-center gap-4 text-xs font-mono">
+          <div className="pt-3 border-t border-[#1E293B] flex flex-wrap items-center gap-4 text-xs font-mono bg-[#070D1E]/70 p-3 rounded-xl border border-[#1E293B]/70">
+            <div className="flex items-center gap-1.5 text-[#38BDF8] font-semibold">
+              <Calendar className="w-4 h-4" />
+              <span>Custom Date Range:</span>
+            </div>
             <div className="flex items-center gap-2">
               <span className="text-[#A7B4CC]">From:</span>
               <input
                 type="date"
                 value={customDateMin}
                 onChange={e => setCustomDateMin(e.target.value)}
-                className="bg-[#050B1A] border border-[#1E293B] rounded-lg px-3 py-1 text-xs text-[#F8FAFC] font-mono focus:outline-none focus:border-[#38BDF8]"
+                className="bg-[#050B1A] border border-[#1E293B] hover:border-[#38BDF8]/50 focus:border-[#38BDF8] rounded-lg px-3 py-1.5 text-xs text-[#F8FAFC] font-mono focus:outline-none [color-scheme:dark] transition-colors"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -599,12 +603,12 @@ export const AsteroidWatch: FC<AsteroidWatchProps> = ({ onNavigate }) => {
                 type="date"
                 value={customDateMax}
                 onChange={e => setCustomDateMax(e.target.value)}
-                className="bg-[#050B1A] border border-[#1E293B] rounded-lg px-3 py-1 text-xs text-[#F8FAFC] font-mono focus:outline-none focus:border-[#38BDF8]"
+                className="bg-[#050B1A] border border-[#1E293B] hover:border-[#38BDF8]/50 focus:border-[#38BDF8] rounded-lg px-3 py-1.5 text-xs text-[#F8FAFC] font-mono focus:outline-none [color-scheme:dark] transition-colors"
               />
             </div>
             <button
               onClick={loadApproaches}
-              className="px-3 py-1 rounded-lg bg-[#38BDF8] text-[#050B1A] font-bold hover:bg-[#38BDF8]/90 transition-all"
+              className="px-3.5 py-1.5 rounded-lg bg-[#38BDF8] text-[#050B1A] font-bold hover:bg-[#38BDF8]/90 transition-all cursor-pointer shadow-sm"
             >
               Apply Dates
             </button>

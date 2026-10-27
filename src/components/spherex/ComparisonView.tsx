@@ -8,7 +8,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ObservationFrame, StretchMode, ColorMap } from '../../types/index.ts';
 import { renderObservationToCanvas } from '../../science/spherexEngine.ts';
-import { SlidersHorizontal, SplitSquareVertical } from 'lucide-react';
+import { SlidersHorizontal, SplitSquareVertical, Download } from 'lucide-react';
 
 interface ComparisonViewProps {
   frameA: ObservationFrame;
@@ -31,6 +31,7 @@ export const ComparisonView: React.FC<ComparisonViewProps> = ({
   const canvasBRef = useRef<HTMLCanvasElement>(null);
   const [splitPercent, setSplitPercent] = useState<number>(50);
   const [viewMode, setViewMode] = useState<'side-by-side' | 'curtain'>('side-by-side');
+  const [isExporting, setIsExporting] = useState<boolean>(false);
 
   useEffect(() => {
     if (canvasARef.current) {
@@ -40,6 +41,60 @@ export const ComparisonView: React.FC<ComparisonViewProps> = ({
       renderObservationToCanvas(canvasBRef.current, frameB, stretch, cmap, true, null);
     }
   }, [frameA, frameB, stretch, cmap]);
+
+  const handleDownloadComparison = async () => {
+    const cA = canvasARef.current;
+    const cB = canvasBRef.current;
+    if (!cA || !cB) return;
+
+    setIsExporting(true);
+    try {
+      const exportCanvas = document.createElement('canvas');
+      const bannerH = 64;
+      exportCanvas.width = cA.width + cB.width + 20;
+      exportCanvas.height = Math.max(cA.height, cB.height) + bannerH;
+
+      const ctx = exportCanvas.getContext('2d');
+      if (!ctx) return;
+
+      // Dark background
+      ctx.fillStyle = '#020617';
+      ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+
+      // Header Banner
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 14px "JetBrains Mono", monospace';
+      ctx.fillText('SPHEREx MULTI-EPOCH ASTRONOMICAL COMPARISON', 16, 28);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillText(
+        `EPOCH 1: ${frameA.frameId} (${frameA.timestamp})  vs  EPOCH 2: ${frameB.frameId} (${frameB.timestamp}) • STRETCH: ${stretch.toUpperCase()}`,
+        16,
+        48
+      );
+
+      // Draw frames
+      ctx.drawImage(cA, 0, bannerH);
+      ctx.drawImage(cB, cA.width + 20, bannerH);
+
+      exportCanvas.toBlob((blob) => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `SPHEREx_Comparison_${frameA.frameId}_vs_${frameB.frameId}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+      }, 'image/png');
+    } catch (err) {
+      console.error('Comparison export failed:', err);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   return (
     <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
@@ -70,6 +125,20 @@ export const ComparisonView: React.FC<ComparisonViewProps> = ({
             }`}
           >
             Curtain Split
+          </button>
+
+          <button
+            onClick={handleDownloadComparison}
+            disabled={isExporting}
+            className="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 border border-cyan-500/40 font-mono transition ml-1 disabled:opacity-50"
+            title="Download Side-by-Side View as PNG"
+          >
+            {isExporting ? (
+              <div className="h-3 w-3 border-2 border-cyan-300/30 border-t-cyan-300 rounded-full animate-spin" />
+            ) : (
+              <Download className="h-3.5 w-3.5" />
+            )}
+            <span>Download View</span>
           </button>
         </div>
       </div>

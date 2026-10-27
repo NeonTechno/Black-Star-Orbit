@@ -1,0 +1,887 @@
+# GOD'S EYE VIEW — THE ULTIMATE COSMIC INTELLIGENCE SYSTEM
+
+## YOUR ROLE
+
+Act as a principal graphics engineer, senior Three.js/WebGL developer, astronomical data engineer, scientific visualization researcher, and futuristic interface designer.
+
+You are working on **Black Star Orbit**, an existing space exploration platform.
+
+Your task is to design and IMPLEMENT a flagship feature called:
+
+# GOD'S EYE VIEW
+### A Multiscale, Interactive Cosmic Observation and Intelligence System
+
+This must become one of the most impressive and technically ambitious features of Black Star Orbit.
+
+Do not merely create a beautiful 3D space scene.
+
+Build an interactive cosmic visualization system that combines astronomical exploration, multiscale navigation, scientific datasets, object inspection, orbital mechanics, contextual information, and an advanced command interface.
+
+The user should feel as though they are operating a sophisticated cosmic observation system capable of examining the universe at multiple scales.
+
+**The core experience: observe the big picture, navigate deeper, inspect individual objects, investigate relationships, and understand what the available scientific evidence actually tells us.**
+
+---
+
+# 1. INSPECT THE EXISTING PROJECT FIRST
+
+Primary repository:
+
+https://github.com/NeonTechno/Black-Star-Orbit
+
+Companion repository:
+
+https://github.com/jk-larbi/cosmic-frontier-
+
+Inspect both repositories before making changes.
+
+Determine:
+
+- The existing frontend framework and application architecture.
+- Whether Three.js, React Three Fiber, or another 3D library is already installed.
+- Existing astronomical visualization components.
+- Existing SPHEREx and Planet X features.
+- Existing Cosmic Lab and Universe Explorer components.
+- Current NASA API integrations.
+- Available astronomy datasets.
+- Existing navigation, routing, design tokens, and animations.
+- Existing backend endpoints and data models.
+- How to integrate God's Eye View without breaking existing functionality.
+
+Reuse existing components and services where appropriate.
+
+Preserve the current Black Star Orbit application, branding, and working features.
+
+Do not create a separate disconnected application if this feature can be integrated into the existing one.
+
+If you cannot access the repositories, explain the limitation and ask for the source code. Never claim to have inspected inaccessible files.
+
+---
+
+# 2. THE CENTRAL IDEA: SEE THE UNIVERSE AT MULTIPLE SCALES
+
+God's Eye View must provide an immersive, navigable representation of the cosmos.
+
+The user should be able to transition between different astronomical scales.
+
+Create the following observation layers.
+
+## LAYER 1 — COSMIC OVERVIEW
+
+A panoramic visualization of the large-scale universe.
+
+Where suitable datasets and scientific evidence are available, represent:
+
+- Large-scale galaxy distributions.
+- Galaxy clusters and superclusters.
+- Filaments and voids in the cosmic web.
+- Observable-universe context.
+- Important cosmic structures.
+- The cosmic microwave background as a separate scientific visualization mode, if supported by appropriate data.
+
+Use scientifically appropriate datasets where possible.
+
+Do not pretend to render every galaxy in the observable universe individually.
+
+The experience should communicate the universe's enormous scale and structure while clearly identifying when a visualization is a sample, simulation, illustration, or data-driven representation.
+
+Allow users to rotate, pan, zoom, and select visible structures.
+
+Selecting a structure should open a scientific information panel containing its name, available properties, source, and context.
+
+## LAYER 2 — GALACTIC OVERVIEW
+
+Transition into a view of galaxies and their surrounding environments.
+
+Include available information such as:
+
+- Galaxy names and identifiers.
+- Galaxy classification.
+- Celestial coordinates.
+- Redshift and distance estimates, where available.
+- Apparent magnitude, where available.
+- Associated catalogues.
+- Scientific imagery.
+- Related objects.
+
+Allow the user to select a galaxy and inspect its properties.
+
+When possible, display real astronomical imagery alongside the spatial representation.
+
+Distinguish between actual images, catalogue-derived positions, and generated artistic representations.
+
+## LAYER 3 — MILKY WAY VIEW
+
+Provide a navigable visualization of the Milky Way.
+
+Where supported, show:
+
+- The Galactic center.
+- The Solar System's approximate position.
+- Major galactic components.
+- Selected star catalogues.
+- Nebulae and star-forming regions.
+- Globular clusters.
+- Open clusters.
+- Notable stellar systems.
+- Available galactic coordinate information.
+
+Use actual catalogue data when available.
+
+Do not fabricate exact three-dimensional positions for objects whose distances are unknown or uncertain.
+
+Where scientific knowledge is incomplete, communicate uncertainty rather than creating false precision.
+
+## LAYER 4 — STELLAR NEIGHBORHOOD
+
+Zoom into the Solar System's surrounding stellar neighborhood.
+
+Include selected nearby stars and other relevant astronomical objects from available catalogues.
+
+Support:
+
+- Star selection.
+- Distance inspection.
+- Stellar classification.
+- Catalogue identifiers.
+- Available temperature, luminosity, and other stellar properties.
+- Distance comparisons.
+- Relative-position visualization.
+
+If the interface displays a 3D arrangement, explain whether positions are measured, inferred, approximate, or illustrative.
+
+## LAYER 5 — SOLAR SYSTEM
+
+Transition into the Solar System.
+
+Where supported, show:
+
+- The Sun.
+- Planets.
+- Dwarf planets.
+- Natural satellites.
+- Asteroids.
+- Comets.
+- Selected small bodies.
+- Orbital paths.
+- Object labels.
+- Relevant physical properties.
+
+Provide controls for selecting individual objects and inspecting their available information.
+
+Allow users to switch between an illustrative overview and more scientifically constrained orbital visualizations.
+
+If orbital data are available, use appropriate ephemerides or orbital elements rather than arbitrary animation.
+
+If orbital scales must be distorted for readability, provide an explicit scale indicator.
+
+## LAYER 6 — PLANETARY AND MOON INSPECTION
+
+Allow users to zoom toward a selected planet or moon.
+
+Where data and performance allow, provide:
+
+- Rotating 3D globes.
+- Surface textures.
+- Terrain or topography layers.
+- Atmosphere effects.
+- Natural satellite systems.
+- Surface features.
+- Day/night terminators.
+- Available imagery.
+- Physical properties.
+- Scientific mission information.
+
+Provide an inspector for selected planetary bodies.
+
+Do not fabricate high-resolution terrain or claim that an artistic texture is actual surface imagery.
+
+## LAYER 7 — EXOPLANETARY SYSTEMS
+
+Let users investigate planetary systems beyond our Solar System.
+
+Integrate appropriate catalogue information, such as confirmed exoplanets from NASA's Exoplanet Archive.
+
+Where available, display:
+
+- Host star.
+- Confirmed planets.
+- Planetary radius and mass.
+- Orbital period.
+- Semi-major axis.
+- Discovery method.
+- Discovery year.
+- Distance from Earth.
+- Available system parameters.
+
+Where orbital parameters are known, create an educational system visualization.
+
+Make it clear when planetary sizes, orbital distances, and orbital periods have been scaled for visibility.
+
+Do not imply that an exoplanet has been directly imaged when the visualization is based only on catalogue parameters.
+
+## LAYER 8 — DEEP-SPACE OBJECT INSPECTION
+
+Provide a pathway to investigate selected deep-space objects.
+
+Potential categories include:
+
+- Nebulae.
+- Galaxies.
+- Star clusters.
+- Supernova remnants.
+- Pulsars.
+- Black holes.
+- Other well-documented astronomical objects.
+
+Use available catalogues and scientifically attributed imagery.
+
+When an object is selected, show relevant observations, scientific classifications, source links, and known uncertainties.
+
+Do not imply that a black hole or distant object is being observed in real time merely because it appears in the interface.
+
+---
+
+# 3. THE SIGNATURE CAPABILITY: CONTINUOUS MULTISCALE NAVIGATION
+
+The defining feature must be the ability to move naturally between cosmic scales.
+
+Create a smooth navigation system that lets the user transition between supported observation layers.
+
+For example:
+
+COSMIC STRUCTURES
+→ GALAXY
+→ MILKY WAY
+→ STELLAR NEIGHBORHOOD
+→ SOLAR SYSTEM
+→ EARTH
+→ SELECTED OBJECT
+
+The exact transitions must respect what the available datasets can actually represent.
+
+Do not invent a continuous, fully measured 3D universe simply to create the appearance of seamless travel.
+
+Where no reliable intermediate spatial data exists, transition between clearly labelled visualization layers.
+
+### Navigation controls
+
+Implement:
+
+- Mouse orbit.
+- Pan.
+- Zoom.
+- Scroll-wheel navigation.
+- Touch gestures.
+- Keyboard controls.
+- Object selection.
+- Focus-on-object.
+- Return-to-previous-view.
+- Reset camera.
+- Optional cinematic auto-tour.
+- Fullscreen mode.
+- A scale-aware navigation indicator.
+
+The camera should move smoothly between meaningful viewpoints.
+
+Use damping, controlled acceleration, and carefully designed easing.
+
+Prevent users from losing orientation.
+
+Always provide a visible way to return to a known view.
+
+### Intelligent camera behavior
+
+When the user selects an object:
+
+1. Identify the selected object.
+2. Focus the camera on its available position or visualization anchor.
+3. Move toward an appropriate viewing distance.
+4. Display the object's label.
+5. Open the object inspector.
+6. Update contextual navigation.
+7. Offer related exploration options.
+
+If the object's position or distance is uncertain, do not present the camera location as an exact scientific measurement.
+
+---
+
+# 4. GOD'S EYE COMMAND INTERFACE
+
+Create a cinematic, futuristic command interface around the 3D visualization.
+
+The interface should resemble an advanced astronomical observation console.
+
+Use the existing Black Star Orbit design language.
+
+## Main viewport
+
+The 3D universe should occupy most of the screen.
+
+Avoid covering the entire scene with opaque cards.
+
+The interface should feel immersive, with controls arranged around the edges.
+
+## Top status bar
+
+Include:
+
+- GOD'S EYE VIEW identity.
+- Current observation layer.
+- Selected object.
+- Available data status.
+- Visualization mode.
+- Fullscreen control.
+- Exit or return navigation.
+
+Do not display fake telemetry or invented live system states.
+
+## Left exploration panel
+
+Provide a collapsible navigation panel for:
+
+- Cosmic structures.
+- Galaxies.
+- Stars.
+- Solar System.
+- Exoplanets.
+- Deep-space objects.
+- Saved discoveries.
+- Available scientific catalogues.
+
+The categories must connect to actual application functionality.
+
+## Right object inspector
+
+When the user selects an object, reveal a translucent scientific information panel.
+
+Display applicable properties such as:
+
+- Object name.
+- Object type.
+- Catalogue identifier.
+- Distance.
+- Coordinates.
+- Relevant measurements.
+- Scientific description.
+- Data provenance.
+- Retrieval timestamp.
+- Measurement uncertainty, if available.
+- Original scientific source.
+- Related objects.
+
+Do not display fields that are unavailable as if they were known.
+
+Use appropriate units and explain unusual measurements.
+
+## Bottom navigation rail
+
+Provide a scale-aware navigation rail showing the current exploration context.
+
+For example:
+
+UNIVERSE → GALAXY → STAR SYSTEM → PLANET
+
+Allow users to return to supported parent views.
+
+## Coordinate and scale display
+
+Where appropriate, display:
+
+- Distance from the selected reference object.
+- Relevant astronomical coordinate system.
+- Camera distance.
+- Visualization scale.
+- Current selected object.
+- Data confidence or uncertainty when supported.
+
+Clearly distinguish camera coordinates from actual astronomical coordinates.
+
+Do not label an arbitrary scene coordinate as a real celestial coordinate.
+
+---
+
+# 5. THE GOD'S EYE ENERGY ENGINE
+
+Create a distinctive futuristic visual identity.
+
+The visualization should feel powerful and alive without compromising usability or scientific clarity.
+
+## Electric-blue energy
+
+Implement controlled lightning-inspired effects around selected objects and important interface elements.
+
+Examples:
+
+- Fine electrical filaments travelling around selected object markers.
+- Short energy pulses when changing observation layers.
+- Electric-blue selection rings.
+- Luminous traces around glass panels.
+- Energy arcs that activate during camera transitions.
+- Subtle electric effects when a major observation layer loads.
+- Small particles flowing along selected orbital paths.
+
+Use SVG, shaders, CSS, Canvas, or WebGL effects where appropriate.
+
+Avoid generating excessive random lightning that makes the scene visually noisy.
+
+## Holographic glass panels
+
+Use translucent glass panels with:
+
+- Dark transparent surfaces.
+- Background blur.
+- Thin luminous borders.
+- Subtle cyan and violet highlights.
+- Layered shadows.
+- Controlled reflections.
+- Animated edge illumination.
+- Smooth transitions.
+
+The 3D scene must remain visible behind the interface.
+
+## Object selection effects
+
+When an object is selected:
+
+1. Highlight the object.
+2. Display a subtle scanning ring.
+3. Animate a short energy pulse.
+4. Reveal the object inspector.
+5. Emphasize related navigation paths where appropriate.
+
+Do not imply that the animation represents a real scientific process.
+
+## Deep-space atmosphere
+
+Use restrained atmospheric effects:
+
+- Star fields.
+- Subtle nebulae.
+- Distant galaxy distributions.
+- Gentle parallax.
+- Sparse particles.
+- Slow background motion.
+- Depth-aware illumination.
+
+Keep the scene visually sophisticated rather than cluttered.
+
+## Accessibility
+
+Respect reduced-motion preferences.
+
+Provide controls to disable or reduce decorative effects.
+
+Ensure all important information remains available when animations are disabled.
+
+---
+
+# 6. SCIENTIFIC DATA INTEGRATION
+
+God's Eye View must combine visualization with real astronomical information.
+
+Inspect existing integrations before introducing new ones.
+
+Prefer appropriate authoritative sources, including:
+
+- NASA APIs.
+- NASA Exoplanet Archive.
+- NASA/JPL Small-Body Database and relevant ephemeris services.
+- SIMBAD astronomical object information.
+- ESA Gaia catalogue resources.
+- Appropriate galaxy and deep-sky catalogues.
+- NASA SPHEREx mission resources.
+- Other scientifically appropriate datasets.
+
+Choose each source based on the object type and information required.
+
+Do not assume that every source exposes a simple public API.
+
+Document authentication requirements, rate limits, and unavailable capabilities.
+
+### Build a normalized astronomical object model
+
+Create or extend typed models for relevant objects.
+
+A possible starting point:
+
+- `id`
+- `name`
+- `objectType`
+- `catalogueIds`
+- `coordinates`
+- `distance`
+- `physicalProperties`
+- `orbitalProperties`
+- `imageResources`
+- `source`
+- `retrievedAt`
+- `dataStatus`
+- `uncertainty`
+- `visualizationType`
+
+Treat this as a proposed schema, not a requirement to add empty fields to every object.
+
+Use appropriate types and units.
+
+Represent missing values explicitly.
+
+### Data-status distinctions
+
+The interface must distinguish between:
+
+- Live API data.
+- Recently retrieved data.
+- Cached data.
+- Archived data.
+- Catalogue-derived data.
+- Simulated data.
+- Illustrative representations.
+- Unavailable data.
+
+Do not label a cached response as live simply because it originated from an API.
+
+Display source and retrieval information wherever it is important to interpreting the visualization.
+
+### Data architecture
+
+Avoid loading enormous catalogues into the browser.
+
+Use:
+
+- Pagination.
+- Spatial filtering.
+- Lazy loading.
+- View-dependent data requests.
+- Appropriate caching.
+- Level-of-detail strategies.
+- Instanced rendering.
+- Efficient point-cloud representations.
+
+Only load the data needed for the current observation layer and visible region.
+
+---
+
+# 7. ADVANCED VISUALIZATION ENGINE
+
+Build the rendering architecture to support a large number of visible objects without creating one expensive React component for every star.
+
+Where appropriate, use:
+
+- Three.js.
+- React Three Fiber if compatible with the existing application.
+- Instanced meshes.
+- GPU-efficient point clouds.
+- Level-of-detail rendering.
+- Frustum culling.
+- Texture atlases.
+- Shader-based visual effects.
+- Spatial indexing.
+- Web Workers for expensive computations.
+
+Do not introduce every technique unnecessarily.
+
+Choose an architecture suited to the actual datasets and expected object counts.
+
+### Procedural universe
+
+Procedurally generate decorative stars and background particles only where they are clearly distinguished from real astronomical observations.
+
+Do not mix fabricated stars with real catalogue entries without identifying the difference.
+
+Provide visual modes that distinguish:
+
+- Scientific data.
+- Educational simulations.
+- Artistic background elements.
+
+### Camera and rendering quality
+
+Implement:
+
+- Smooth camera movement.
+- Adaptive rendering quality where practical.
+- Appropriate near and far clipping planes.
+- Stable controls at very large and very small scales.
+- Responsive resizing.
+- Safe handling of WebGL initialization failures.
+- Graceful fallback states.
+
+The application must not crash when WebGL is unavailable or a large dataset fails to load.
+
+---
+
+# 8. ADVANCED EXPLORATION TOOLS
+
+Add genuinely useful scientific exploration capabilities.
+
+## A. Object search
+
+Search across available astronomical objects.
+
+Support:
+- Names.
+- Known catalogue identifiers.
+- Object types.
+- Available mission datasets.
+
+Search results should show the object's name, category, and source.
+
+Selecting a result should focus the camera on the appropriate visualization.
+
+## B. Compare objects
+
+Allow users to compare supported objects.
+
+Examples:
+- Two planets.
+- Two exoplanets.
+- Two stars.
+- Two galaxies.
+
+Display comparable measurements and appropriate units.
+
+Show unavailable values rather than inventing them.
+
+## C. Observation layers
+
+Allow users to toggle applicable visualization layers.
+
+Examples:
+- Object labels.
+- Orbital paths.
+- Star catalogues.
+- Galaxy distributions.
+- Reference grids.
+- Coordinate overlays.
+- Selected object trails.
+- Available scientific imagery.
+
+Do not show a toggle as functional if the corresponding layer has not been implemented.
+
+## D. Measurement tool
+
+Create an educational measurement tool.
+
+Where the available coordinates support it, allow users to select two objects and inspect their angular separation or relevant distance.
+
+Clearly distinguish:
+- Angular separation on the sky.
+- Physical three-dimensional separation.
+- Apparent screen-space distance.
+- Distances estimated from incomplete data.
+
+Do not calculate physical distance by subtracting unrelated catalogue coordinates without the necessary distance information.
+
+## E. Discovery bookmarks
+
+Allow users to save interesting objects and return to them later.
+
+Use existing persistence infrastructure if appropriate.
+
+Otherwise, consider local storage.
+
+Avoid introducing authentication solely to save a few bookmarks.
+
+## F. Guided cosmic tour
+
+Provide an optional cinematic tour of selected astronomical objects.
+
+The tour should:
+- Move between meaningful viewpoints.
+- Explain what is being shown.
+- Display relevant scientific information.
+- Identify data sources.
+- Allow pausing and skipping.
+- Allow users to leave the tour at any time.
+
+Do not invent historical discoveries or scientific facts.
+
+---
+
+# 9. A SPECIAL MODE: COSMIC OBSERVER
+
+Create a mode optimized for panoramic observation.
+
+The user can hide most interface panels and explore the visualization with minimal distractions.
+
+Include:
+- Fullscreen view.
+- Minimal object labels.
+- Optional cinematic camera movement.
+- Selectable objects.
+- A compact scale indicator.
+- Optional ambient sound only if explicitly enabled.
+- A quick method to restore the full interface.
+
+Do not autoplay sound.
+
+This mode should feel immersive without sacrificing navigation or accessibility.
+
+---
+
+# 10. ADVANCED MODE: SCIENTIFIC OBSERVATION
+
+Provide an alternative interface for users who want more technical detail.
+
+Include applicable information such as:
+- Object identifiers.
+- Scientific coordinates.
+- Distances.
+- Catalogue measurements.
+- Data-source metadata.
+- Uncertainty.
+- Visualization parameters.
+- Dataset selection.
+- Available observation dates.
+
+Keep this information organized rather than displaying every field simultaneously.
+
+Allow users to inspect the underlying source records when practical.
+
+Scientific mode must use actual available data rather than inventing realistic-looking measurements.
+
+---
+
+# 11. PERFORMANCE AND RESPONSIVENESS
+
+This feature may be computationally intensive.
+
+Optimize for:
+
+- Modern desktop browsers.
+- Mid-range laptops.
+- Tablets.
+- Mobile devices.
+
+Requirements:
+
+- Avoid unnecessarily high polygon counts.
+- Avoid creating huge numbers of individual DOM nodes.
+- Use instanced rendering where suitable.
+- Lazy-load expensive scenes.
+- Dispose of unused textures, geometries, and materials.
+- Clean up animation loops and event listeners.
+- Avoid repeated API calls during camera movement.
+- Debounce expensive search requests.
+- Use sensible data limits.
+- Support responsive controls.
+- Provide a lightweight rendering mode.
+- Handle device pixel ratio carefully.
+- Avoid blocking the UI while data loads.
+
+On mobile, simplify decorative effects and reduce rendering costs where appropriate.
+
+If WebGL is unavailable, provide a meaningful fallback rather than a blank screen.
+
+---
+
+# 12. IMPLEMENTATION STRATEGY
+
+Work incrementally.
+
+## Phase 1: Inspect
+
+Understand the current codebase, available datasets, rendering libraries, and integration points.
+
+Identify the best existing component to extend or determine where God's Eye View should be mounted.
+
+## Phase 2: Build the foundation
+
+Create the core scene, camera, navigation controls, responsive viewport, and basic object selection.
+
+Begin with a small, representative dataset.
+
+## Phase 3: Implement multiscale navigation
+
+Build the observation-layer architecture.
+
+Support meaningful transitions between implemented scales.
+
+Do not simulate scientifically accurate continuity where the underlying data does not support it.
+
+## Phase 4: Integrate astronomical data
+
+Connect appropriate existing services and catalogues.
+
+Add typed models, loading states, caching, source attribution, and data-status indicators.
+
+## Phase 5: Build the command interface
+
+Implement the glass panels, object inspector, search, layer controls, scale indicators, and navigation history.
+
+## Phase 6: Add the visual effects
+
+Implement electric selection effects, glassmorphism, cinematic transitions, and ambient particles.
+
+Keep decorative rendering separate from scientific data.
+
+## Phase 7: Add advanced tools
+
+Implement object comparison, observation layers, measurement tools, bookmarks, and guided tours according to priority.
+
+## Phase 8: Verify
+
+Run the available build, lint, and test commands.
+
+Test the scene, navigation, API handling, responsive layouts, and WebGL fallback.
+
+Fix errors introduced by your changes.
+
+If a check cannot be executed, explicitly identify it as unverified.
+
+---
+
+# 13. ACCEPTANCE CRITERIA
+
+God's Eye View is not complete until the following conditions are met:
+
+1. It is accessible through the existing Black Star Orbit application.
+2. Existing SPHEREx and Planet X functionality remains intact.
+3. The main 3D scene renders successfully in a supported browser.
+4. Users can rotate, pan, zoom, and reset the camera.
+5. Users can select supported objects.
+6. Selecting an object displays its available information.
+7. Navigation works between the observation layers that have actually been implemented.
+8. Object search returns meaningful results from available data.
+9. Data sources and live-versus-archived status are visible where relevant.
+10. Missing data does not crash the interface.
+11. The scene remains usable on smaller screens.
+12. Expensive animations can be reduced or disabled.
+13. WebGL failure produces a useful fallback.
+14. Scientific information is not fabricated.
+15. There are no obviously broken controls or placeholder interactions presented as finished functionality.
+16. Build and tests are run where possible, with the results reported honestly.
+
+---
+
+# 14. THE FINAL DESIGN STANDARD
+
+The final experience should feel like a premium interstellar observation system.
+
+Its identity should combine:
+
+- A massive immersive cosmic viewport.
+- Deep-space darkness.
+- Elegant cyan and violet illumination.
+- Translucent holographic panels.
+- Restrained electric-blue lightning.
+- Smooth multiscale camera movement.
+- Scientific object inspection.
+- Real astronomical datasets.
+- High-performance rendering.
+- An intuitive command interface.
+
+The effects should feel deliberate, sophisticated, and responsive.
+
+Do not turn the scene into a noisy science-fiction game.
+
+Do not sacrifice scientific integrity for visual spectacle.
+
+Do not produce a static mockup when the project environment allows implementation.
+
+**The ambition is to make God's Eye View the defining feature of Black Star Orbit: a unified environment in which people can explore astronomical structures, navigate between cosmic scales, inspect scientific evidence, and understand the universe through an immersive interactive interface.**
+
+Begin by inspecting both repositories. Then implement the strongest functional version that the existing architecture and available data can support.
+
+Preserve existing functionality, verify your changes, and report exactly what works and what remains incomplete.

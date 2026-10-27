@@ -1,0 +1,837 @@
+# PROJECT: BLACK STAR ORBIT — FUTURISTIC SPACE EXPLORATION PLATFORM
+
+Act as a world-class senior frontend engineer, full-stack developer, creative technologist, scientific data engineer, and award-winning UI/UX designer.
+
+Your mission is to inspect my existing repositories, understand their architecture and functionality, and transform **Black Star Orbit** into an exceptionally modern, futuristic, immersive, and scientifically credible space exploration platform.
+
+Do not just create a pretty landing page. Build a functional application with polished interactions, meaningful features, smooth animations, responsive layouts, and real astronomical data integrations.
+
+## 1. INSPECT THESE REPOSITORIES FIRST
+
+Visit and inspect the following repositories before making any changes:
+
+**Primary repository — the application you must improve:**
+https://github.com/NeonTechno/Black-Star-Orbit
+
+**Companion repository — inspect for additional features, components, visual ideas, scientific data integrations, and functionality to adopt:**
+https://github.com/jk-larbi/cosmic-frontier-
+
+Inspect the following as well:
+
+- Primary repository's README and package.json.
+- Existing application entry points, routing, navigation, and page components.
+- Existing CSS, design tokens, animation utilities, and responsive styles.
+- Backend routes, server configuration, API integrations, and data models.
+- Existing SPHEREx and Planet X challenge implementations.
+- The Cosmic Lab integration and its supporting components, if present.
+- Available NASA APIs and other astronomical data sources already used by the projects.
+- Existing branches or integration work if accessible.
+
+If repository access is unavailable, clearly explain the limitation and ask me to provide the source files or connect the relevant repository. Do not pretend to have inspected code you could not access.
+
+### Critical preservation rules
+
+1. Preserve existing working functionality.
+2. Do not replace the entire application with an unrelated template.
+3. Do not remove existing SPHEREx or Planet X challenge functionality.
+4. Reuse and improve existing components where practical.
+5. Avoid duplicating pages, API routes, CSS rules, or dependencies.
+6. Inspect existing dependencies before installing new ones.
+7. Maintain compatibility with the current framework, package manager, and project architecture.
+8. Do not hardcode fake scientific data and present it as real.
+9. Do not claim that an API is live unless the application actually retrieves live data.
+10. Make changes incrementally and verify them as you proceed.
+
+Your final result must remain recognizable as Black Star Orbit.
+
+---
+
+# 2. THE VISUAL DIRECTION: A LIVING COSMIC INTERFACE
+
+I want the application to feel like a sophisticated spacecraft command system combined with a premium next-generation scientific research platform.
+
+Imagine a fusion of:
+
+- A futuristic interstellar navigation console.
+- A cinematic deep-space observatory.
+- A high-end scientific visualization application.
+- A holographic mission-control interface.
+- A premium dark glassmorphism dashboard.
+- A real-time astronomical exploration laboratory.
+
+The design must be visually striking without becoming cluttered or difficult to use.
+
+## Color palette
+
+Use a sophisticated space-inspired palette:
+
+- Near-black and deep-space navy backgrounds.
+- Electric cyan and ice-blue highlights.
+- Ultraviolet and cosmic violet accents.
+- Subtle white and silver typography.
+- Selective magenta and aurora gradients.
+- Carefully controlled lightning-blue illumination.
+- Transparent glass surfaces with soft borders.
+
+Use color intentionally to distinguish navigation, scientific data, live telemetry, alerts, selected objects, and interactive controls.
+
+Avoid excessive neon, oversaturated gradients, and bright effects behind important text.
+
+## Typography
+
+Use a clean, modern typography system.
+
+Consider:
+- Inter or Geist for general UI.
+- Space Grotesk for prominent headings.
+- A restrained monospace font for coordinates, timestamps, scientific measurements, and telemetry.
+
+Create a clear hierarchy between page titles, section headings, descriptions, labels, and numerical readouts.
+
+## Glassmorphism
+
+Implement high-quality glassmorphism across the application.
+
+Glass surfaces should feature:
+- Semi-transparent dark backgrounds.
+- Background blur and subtle saturation.
+- Thin translucent borders.
+- Soft inner highlights.
+- Controlled ambient shadows.
+- Subtle cyan or violet edge illumination.
+- Hover states that increase clarity and depth.
+- Layered transparency for floating panels.
+
+Use glassmorphism for navigation, cards, dashboards, modals, floating telemetry, object information panels, tooltips, and mission controls.
+
+Do not apply blur indiscriminately. Preserve readability, contrast, and performance.
+
+---
+
+# 3. THE SIGNATURE EFFECT: ELECTRIC LIGHTNING AND ENERGY ANIMATIONS
+
+This is one of the most important parts of the design.
+
+I want sophisticated electric-energy animations that make the interface feel alive, powerful, and futuristic.
+
+Do not simply add random flashing blue lines. Create a coherent visual system in which energy effects respond to the interface.
+
+## A. Electric glass borders
+
+Create cards and panels with animated electric borders.
+
+When a user hovers over an interactive card:
+- A narrow cyan energy beam travels around its border.
+- Small electrical branches occasionally emerge along the edges.
+- The border brightens in response to interaction.
+- A soft blue-violet glow radiates outward.
+- The effect settles smoothly when the pointer leaves.
+
+Use SVG paths, CSS animations, gradients, or Canvas where appropriate.
+
+The effect should resemble controlled electrical energy travelling through a futuristic transparent interface.
+
+Keep the animation smooth and restrained.
+
+## B. Lightning transitions
+
+Create elegant lightning-inspired transitions for important interface interactions.
+
+Examples:
+- Switching between scientific workspaces.
+- Opening an astronomical object.
+- Activating mission-control tools.
+- Selecting a planet, galaxy, or exoplanet.
+- Loading a visualization.
+- Expanding a scientific data panel.
+
+Use short energy pulses, luminous traces, subtle particle bursts, and controlled glow transitions.
+
+Never make navigation depend on long animations.
+
+## C. Ambient energy effects
+
+Add subtle animated energy around selected components:
+
+- Slow-moving electrical filaments.
+- Tiny blue-white sparks.
+- Flowing light along glass edges.
+- Atmospheric blue-violet illumination.
+- Faint energy waves in the background.
+- Occasional restrained lightning arcs in designated hero areas.
+
+These effects must remain behind the content and must not interfere with clicking, scrolling, or reading.
+
+## D. Energy-reactive buttons
+
+Interactive buttons should feel responsive and tactile.
+
+Implement:
+- Animated gradient borders.
+- A subtle luminous sweep on hover.
+- A short energy pulse when activated.
+- Smooth pressed and focused states.
+- Visible keyboard-focus indicators.
+- Clear disabled and loading states.
+
+Avoid unnecessary effects on every small button.
+
+## E. Hero lightning composition
+
+Design a cinematic landing hero with a central cosmic focal point.
+
+Possible composition:
+- A rotating holographic planet or celestial object.
+- A layered nebula background.
+- Fine electric-blue arcs behind the central object.
+- Orbital paths and moving particles.
+- Floating scientific coordinates.
+- Small telemetry indicators.
+- A luminous energy ring.
+- Glass panels containing mission information.
+
+The result should feel like a spacecraft powering up a scientific discovery system.
+
+Do not let decorative effects overwhelm the main heading or primary action.
+
+---
+
+# 4. BUILD A HIGH-QUALITY ANIMATION SYSTEM
+
+Create reusable animation utilities rather than writing disconnected animations throughout the application.
+
+Implement appropriate versions of the following:
+
+### Background animations
+- Slowly drifting stars.
+- Multiple layers of parallax particles.
+- Subtle nebula movement.
+- Slowly rotating orbital rings.
+- Faint moving light beams.
+- Occasional distant shooting stars.
+- Soft aurora-like gradients.
+
+### Interface animations
+- Smooth page transitions.
+- Glass panels appearing with subtle depth.
+- Staggered card entrances.
+- Hover elevation and glow.
+- Animated loading indicators.
+- Expanding information panels.
+- Smooth navigation transitions.
+- Number counters for appropriate scientific statistics.
+- Animated progress indicators.
+- Contextual transitions when switching between tabs.
+
+### Astronomical animations
+- Rotating planets.
+- Animated orbital paths.
+- Moving celestial bodies.
+- Interactive star maps.
+- Camera transitions in 3D scenes.
+- Hover highlighting of selectable objects.
+- Smooth zoom and pan controls.
+- Optional object labels and scientific overlays.
+
+Use real orbital data when available. Clearly label illustrative simulations when actual scientific ephemerides are unavailable.
+
+### Performance requirements
+
+- Prefer CSS animations for simple effects.
+- Use SVG for scalable vector effects.
+- Use Canvas or WebGL only when they provide meaningful benefits.
+- Reuse animation loops and avoid unnecessary React re-renders.
+- Avoid excessive DOM particles.
+- Pause or reduce expensive background animations when appropriate.
+- Support `prefers-reduced-motion`.
+- Ensure animations do not prevent users from navigating or interacting with the app.
+- Avoid excessive blur, especially across large full-screen surfaces.
+- Ensure the interface remains usable on mid-range phones and laptops.
+
+If a library such as Framer Motion, Motion, Three.js, or React Three Fiber is already installed, evaluate whether it should be reused before introducing another dependency.
+
+---
+
+# 5. MAKE THE PLATFORM MORE FUNCTIONAL
+
+Inspect the companion repository and identify valuable features that can be incorporated into Black Star Orbit.
+
+Do not stop after copying components. Understand their dependencies, connect them to the existing application, and improve their usability.
+
+Evaluate and implement the following features where appropriate.
+
+## A. Mission Control Dashboard
+
+Build a mission-control dashboard that brings important information together.
+
+Include:
+- Selected astronomical object.
+- Relevant mission information.
+- Data-source status.
+- Latest successful data refresh.
+- Available scientific datasets.
+- Selected object's relevant properties.
+- Useful shortcuts to exploration tools.
+- Clearly differentiated live, cached, archived, and unavailable data.
+
+Make the dashboard interactive rather than a static collection of cards.
+
+## B. Live Cosmic Observatory
+
+Develop a live-observatory workspace for exploring astronomical information.
+
+Include:
+- Astronomical imagery.
+- Object search.
+- Relevant object metadata.
+- Source attribution.
+- Image descriptions.
+- Loading and error states.
+- Dataset refresh controls where supported.
+- Clear indications of whether information is live or archived.
+
+Integrate real APIs where feasible. If a service requires credentials, document the required environment variables and provide an appropriate fallback.
+
+## C. Interactive 3D Universe Explorer
+
+Create a polished 3D exploration experience.
+
+Where feasible, include:
+- A navigable star field.
+- Selectable celestial objects.
+- Planetary and orbital visualizations.
+- Zoom, pan, and camera controls.
+- Object information panels.
+- Search and selection.
+- Distance or coordinate information when available.
+- Smooth camera transitions.
+- An optional immersive fullscreen mode.
+
+Make the experience useful even if the user has never used a 3D astronomy application.
+
+Clearly distinguish scientific visualizations from artistic representations.
+
+## D. Asteroid Watch
+
+Create an asteroid-monitoring workspace using an appropriate authoritative data source.
+
+Where supported, display:
+- Object name and designation.
+- Estimated diameter.
+- Close-approach date.
+- Relative velocity.
+- Miss distance.
+- Orbit or trajectory visualization.
+- Source and retrieval timestamp.
+- Uncertainty or limitations where available.
+
+Use NASA's Near Earth Object APIs or another suitable authoritative source.
+
+Do not describe an asteroid as dangerous solely because it passes near Earth. Explain the meaning of relevant measurements and avoid sensationalized risk indicators.
+
+If the required live data integration is not implemented, show a clear unavailable state or explicitly labelled sample visualization.
+
+## E. Exoplanet Discovery Lab
+
+Create an exploration interface for confirmed exoplanets.
+
+Where data is available, include:
+- Planet name.
+- Host star.
+- Distance from Earth.
+- Planetary radius.
+- Estimated mass.
+- Orbital period.
+- Discovery method.
+- Discovery year.
+- Habitable-zone information where scientifically supported.
+- Scientific source.
+- Search and filtering.
+- Comparison between selected planets.
+
+Use an appropriate authoritative catalogue, such as NASA's Exoplanet Archive.
+
+Do not infer that an exoplanet supports life simply because it lies in a habitable zone.
+
+## F. Galaxy Explorer
+
+Build an interactive galaxy and deep-sky object browser.
+
+Include:
+- Searchable objects.
+- Available astronomical imagery.
+- Object classifications.
+- Coordinates when available.
+- Distance estimates where supported.
+- Scientific descriptions.
+- Image attribution.
+- Links to original scientific sources.
+
+Make the experience visually rich while preserving scientific provenance.
+
+## G. SPHEREx Explorer
+
+Preserve and improve the existing SPHEREx challenge implementation.
+
+Include relevant features such as:
+- Mission overview.
+- Spectral and infrared exploration concepts.
+- Available mission products.
+- Scientific data visualization.
+- Explanations of why spectral information matters.
+- Relevant astronomical examples.
+- Dataset provenance and source links.
+
+Do not fabricate mission measurements or imply that illustrative spectral data are actual observations.
+
+## H. Planet X Explorer
+
+Preserve and improve the existing Planet X challenge implementation.
+
+Where appropriate, include:
+- Scientific background.
+- Evidence and hypotheses.
+- Orbital models.
+- Searchable scientific references.
+- Relevant visualizations.
+- Clear explanations of what is known and what remains hypothetical.
+
+Do not portray Planet Nine, Planet X, or any hypothetical object as confirmed when it is not.
+
+Make the distinction between published evidence, hypotheses, and speculative illustrations obvious.
+
+## I. NASA Data Centre
+
+Create a unified scientific-data browser.
+
+Allow users to:
+- Search available datasets.
+- Filter by object, category, mission, or source.
+- Inspect metadata.
+- Open original sources.
+- View retrieval timestamps.
+- Distinguish archived data from live API responses.
+- Understand data limitations.
+
+Where practical, include relevant NASA image and astronomy resources.
+
+## J. AI Astronomy Guide
+
+Create an approachable AI-assisted astronomy guide.
+
+Potential capabilities:
+- Explain astronomical concepts.
+- Explain the properties of selected objects.
+- Summarize scientific metadata.
+- Compare celestial objects.
+- Explain charts and measurements.
+- Suggest relevant exploration paths.
+- Link answers to supporting sources.
+
+Do not make up scientific facts or pretend that a language model has verified information it has not retrieved.
+
+If an AI API is required, use secure server-side configuration. Never expose secret API keys in client-side code.
+
+If no AI credentials are configured, provide a useful non-AI educational fallback.
+
+---
+
+# 6. ADD FEATURES THAT MAKE THE APP FEEL NEXT-GENERATION
+
+After inspecting the repositories, identify opportunities to add genuinely useful features.
+
+Prioritize the following where they fit the existing architecture.
+
+### Feature 1: Cosmic Command Palette
+
+Create a keyboard-accessible command palette.
+
+Suggested shortcut: `Cmd/Ctrl + K`.
+
+Users should be able to:
+- Navigate to a workspace.
+- Search for celestial objects.
+- Open mission information.
+- Switch themes or visual modes.
+- Access common tools.
+- Find scientific datasets.
+
+Include keyboard navigation and a clear escape action.
+
+### Feature 2: Celestial Object Inspector
+
+When users select a celestial object, open a beautiful floating glass panel containing its available information.
+
+Include:
+- Name and object type.
+- Image or visualization.
+- Scientific measurements.
+- Source links.
+- Data freshness.
+- Related objects.
+- Relevant exploration actions.
+
+The panel should feel like a holographic scientific instrument, but the data must remain readable.
+
+### Feature 3: Cosmic Search
+
+Build a unified search interface for available objects, datasets, missions, and educational content.
+
+Provide:
+- Search suggestions.
+- Recent searches.
+- Useful filters.
+- Keyboard navigation.
+- Clear empty states.
+- Fast results.
+- Links to authoritative sources.
+
+Use existing data services wherever possible.
+
+### Feature 4: Observatory View Modes
+
+Consider offering a few coordinated visual modes:
+
+- **Command Mode:** dense, information-rich mission control.
+- **Explorer Mode:** immersive visual discovery.
+- **Research Mode:** scientific data, metadata, citations, and comparisons.
+
+These modes should change the presentation of information, not arbitrarily hide essential functionality.
+
+### Feature 5: Interactive Scientific Comparisons
+
+Allow users to compare selected planets, exoplanets, galaxies, or other supported objects.
+
+Present comparable measurements in readable cards, tables, or charts.
+
+Show units, source attribution, missing values, and uncertainty where available.
+
+### Feature 6: Cosmic Discovery Journey
+
+Create a guided exploration experience.
+
+For example:
+
+1. Select a mission or scientific topic.
+2. Discover an astronomical object.
+3. Inspect its scientific properties.
+4. Explore its imagery or visualization.
+5. Compare it with related objects.
+6. Open the supporting scientific sources.
+
+Make the journey useful for students, astronomy enthusiasts, and researchers.
+
+### Feature 7: Personal Discovery Collection
+
+If appropriate for the existing architecture, allow users to bookmark interesting objects and build a personal discovery collection using local storage or the existing persistence layer.
+
+Do not add a complicated authentication system solely for bookmarks.
+
+### Feature 8: Data Integrity and Scientific Provenance
+
+Every important scientific data display should make it possible to understand:
+- Where the information originated.
+- Whether it is live, cached, or archived.
+- When it was retrieved.
+- Whether the value is measured, estimated, modelled, or illustrative.
+- Which units are used.
+- Whether relevant uncertainty is available.
+
+This feature is important. Black Star Orbit must not merely look futuristic; it must be scientifically trustworthy.
+
+---
+
+# 7. MODERNIZE THE ENTIRE USER EXPERIENCE
+
+Audit the application page by page.
+
+Improve:
+- Navigation and active states.
+- Page hierarchy.
+- Spacing and typography.
+- Responsive layouts.
+- Empty states.
+- Loading states.
+- Error messages.
+- Search interfaces.
+- Cards and tables.
+- Modals and side panels.
+- Mobile navigation.
+- Tooltips.
+- Focus states.
+- Accessibility.
+- Page transitions.
+- Scientific data presentation.
+
+Replace generic-looking components with a cohesive design system.
+
+Use consistent radii, spacing, shadows, borders, animation timings, and color tokens.
+
+Avoid making every card look identical. Use visual hierarchy to distinguish primary controls, scientific content, navigation, and secondary information.
+
+The app should look carefully designed on desktop, tablet, and mobile.
+
+---
+
+# 8. CREATE A CINEMATIC LANDING EXPERIENCE
+
+The landing page should immediately communicate that Black Star Orbit is a serious and ambitious space exploration project.
+
+Suggested layout:
+
+### Navigation
+A compact, translucent glass navbar with:
+- Black Star Orbit identity.
+- Clear workspace navigation.
+- Search or command-palette access.
+- Theme or view controls where useful.
+- Responsive mobile navigation.
+
+### Hero section
+A large cinematic composition with:
+- A striking astronomical focal point.
+- Atmospheric deep-space imagery.
+- Carefully controlled electric-blue lightning.
+- Subtle parallax.
+- Orbital lines.
+- Floating scientific coordinates.
+- A strong headline.
+- A concise description.
+- One primary call to action.
+- One secondary exploration action.
+
+### Discovery cards
+Showcase key workspaces such as:
+- SPHEREx Explorer.
+- Planet X Explorer.
+- Cosmic Lab.
+- Asteroid Watch.
+- Exoplanet Discovery.
+- NASA Data Centre.
+
+### Live-data preview
+If actual live data is available, display selected information with a visible source and retrieval timestamp.
+
+If it is unavailable, do not invent a live status.
+
+### Featured discoveries
+Showcase real, attributed astronomical objects or clearly labelled illustrative examples.
+
+### Footer
+Include project information, navigation, relevant data-source attribution, and links to scientific resources.
+
+Do not turn the landing page into an excessively long marketing page. Prioritize clear navigation into the actual scientific tools.
+
+---
+
+# 9. TECHNICAL IMPLEMENTATION REQUIREMENTS
+
+Before coding, inspect the existing stack and architecture.
+
+Use the current framework and build system wherever possible.
+
+### Frontend
+- Reuse existing React and TypeScript conventions.
+- Maintain clear component boundaries.
+- Prefer reusable hooks and components.
+- Avoid unnecessary global state.
+- Keep types accurate.
+- Handle loading, errors, and empty results.
+- Ensure routes and navigation remain functional.
+
+### Styling
+- Establish reusable design tokens.
+- Avoid duplicated CSS.
+- Preserve existing Tailwind conventions if present.
+- Scope styles to avoid unintended regressions.
+- Implement a consistent glassmorphism system.
+- Respect reduced-motion preferences.
+
+### Backend
+- Preserve existing server routes and middleware.
+- Add endpoints only where needed.
+- Validate API responses.
+- Use appropriate timeouts and error handling.
+- Avoid blocking the application when a third-party service is unavailable.
+- Cache data when appropriate.
+- Keep secrets on the server.
+- Distinguish API errors from valid empty results.
+
+### Scientific data
+Prefer authoritative sources, including:
+- NASA APIs.
+- NASA Exoplanet Archive.
+- NASA/JPL Small-Body Database and related services.
+- NASA SPHEREx mission resources.
+- NASA image and astronomy resources.
+- Other appropriate scientific catalogues.
+
+Inspect existing integrations before introducing new ones.
+
+Do not assume that every NASA resource exposes the same API format or has unrestricted access.
+
+Document required credentials, API limitations, and configuration.
+
+### Reliability
+- Preserve valid existing routes.
+- Avoid broken imports.
+- Avoid unnecessary dependency changes.
+- Verify JSON import handling.
+- Verify TypeScript compatibility.
+- Avoid browser-only APIs during server-side rendering unless properly guarded.
+- Ensure new components do not crash if optional data is missing.
+
+### Accessibility
+- Support keyboard navigation.
+- Provide visible focus states.
+- Use semantic HTML.
+- Give meaningful controls accessible names.
+- Maintain adequate contrast.
+- Avoid communicating critical status through color alone.
+- Respect reduced-motion settings.
+
+---
+
+# 10. EXECUTION PLAN — WORK IN PHASES
+
+Do not attempt a blind rewrite.
+
+## Phase 1: Repository reconnaissance
+
+Inspect both repositories.
+
+Produce a concise audit covering:
+- Architecture.
+- Existing features.
+- Useful components to reuse.
+- Existing APIs and data services.
+- Current design weaknesses.
+- Potential integration conflicts.
+- Missing functionality.
+- Highest-priority improvements.
+
+Then proceed to implementation if repository access and tools permit.
+
+## Phase 2: Design system
+
+Implement:
+- Color and typography tokens.
+- Glassmorphism utilities.
+- Electric-border effects.
+- Background atmosphere.
+- Reusable transitions.
+- Reduced-motion behavior.
+- Responsive design conventions.
+
+## Phase 3: Core visual overhaul
+
+Modernize:
+- Landing page.
+- Navigation.
+- Workspace cards.
+- Page transitions.
+- Dashboard layouts.
+- Loading and empty states.
+
+## Phase 4: Feature integration
+
+Integrate the best existing companion features into the primary app.
+
+Preserve existing SPHEREx and Planet X implementations.
+
+Ensure every new navigation entry opens a real workspace.
+
+## Phase 5: Functional improvements
+
+Implement high-value features such as:
+- Cosmic Command Palette.
+- Cosmic Search.
+- Celestial Object Inspector.
+- Improved scientific data browsing.
+- Interactive object comparisons.
+- Useful 3D exploration controls.
+
+Prioritize working functionality over adding many superficial features.
+
+## Phase 6: Verification
+
+Run the available checks, such as:
+
+`npm install`
+
+`npm run build`
+
+`npm run lint`
+
+Run tests if the repository provides them.
+
+Use the project's existing package manager and scripts when they differ from these examples.
+
+Fix errors introduced by your changes.
+
+Check for:
+- Missing modules.
+- Broken imports.
+- TypeScript errors.
+- Invalid JSON imports.
+- Broken navigation.
+- API failures.
+- Mobile layout issues.
+- Console errors.
+- Reduced-motion regressions.
+- Missing environment variables.
+
+If you cannot execute a check, explicitly state that it remains unverified.
+
+## Phase 7: Final review
+
+Provide a concise implementation report listing:
+1. Features added.
+2. Existing features preserved.
+3. Files or major components changed.
+4. New dependencies and the reason for each.
+5. API integrations and environment variables.
+6. Build and test results.
+7. Known limitations.
+8. Remaining recommendations.
+
+---
+
+# 11. DESIGN QUALITY BAR
+
+The result must not look like a generic AI-generated dashboard.
+
+Avoid:
+- Excessive rounded cards everywhere.
+- Random floating circles without purpose.
+- Overused gradients.
+- Excessive neon outlines.
+- Constant flashing.
+- Fake live-data indicators.
+- Unreadable small text.
+- Gratuitous loading animations.
+- Giant blank sections.
+- Placeholder buttons that do nothing.
+- Fake 3D objects presented as scientific models.
+- Generic stock imagery that conflicts with the scientific subject.
+- Adding features that are not connected to the rest of the application.
+
+Instead, create a coherent, intentional interface with cinematic depth, strong hierarchy, controlled electric effects, sophisticated glass surfaces, and useful scientific interactions.
+
+**The signature visual identity should be: deep-space atmosphere + translucent holographic glass + electric cyan lightning + elegant orbital motion + trustworthy scientific data.**
+
+Make the experience feel like operating an advanced interstellar research system.
+
+# 12. FINAL INSTRUCTION
+
+Start by inspecting the repositories and understanding the existing application.
+
+Then implement the improvements in the available project workspace. Do not stop at describing what could be built if you have the tools and permissions to build it.
+
+Preserve existing working functionality, prioritize the most valuable improvements, and verify the changes.
+
+If you cannot access or modify the GitHub repositories directly, tell me precisely what access is missing and work with the source files I provide.
+
+Do not claim that you have changed, tested, committed, pushed, or deployed anything unless that action actually happened.
+
+**The goal is to make Black Star Orbit feel like a premium, futuristic cosmic exploration platform—with stunning lightning effects, living glass interfaces, immersive astronomical visualizations, and scientifically trustworthy functionality.**

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import type { AppPage } from '../types';
+import { OpeningHeroGateway } from './OpeningHeroGateway';
 import { NovaCommandHero } from './NovaCommandHero';
 import { PlanetaryShowcase } from './PlanetaryShowcase';
 import { CosmicOrbitalDiagram } from './CosmicOrbitalDiagram';
@@ -23,14 +24,19 @@ interface HomePageProps {
 
 export const HomePage: FC<HomePageProps> = ({ onNavigate }) => {
   return (
-    <div className="space-y-20 pb-16">
-      {/* 1. NOVA-STYLE SCI-FI COMMAND CENTER HERO */}
-      <div className="max-w-360 mx-auto px-2 sm:px-4 lg:px-6 pt-4">
+    <div className="space-y-16 pb-16">
+      {/* 1. OFFICIAL OPENING PAGE HERO GATEWAY */}
+      <div className="max-w-360 mx-auto px-2 sm:px-4 lg:px-6 pt-3">
+        <OpeningHeroGateway onNavigate={onNavigate} />
+      </div>
+
+      {/* 2. NOVA-STYLE SCI-FI COMMAND CENTER HERO */}
+      <div className="max-w-360 mx-auto px-2 sm:px-4 lg:px-6">
         <NovaCommandHero onNavigate={onNavigate} />
       </div>
 
-      {/* 2. DISCOVERY CATEGORIES GATEWAY */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      {/* 3. DISCOVERY CATEGORIES GATEWAY */}
+      <section id="observatories-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="max-w-3xl space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30 text-xs font-mono font-semibold uppercase tracking-wider">
             Astronomy Observatories & Research Consoles
